@@ -1,0 +1,843 @@
+.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #a8d8ea 0%, #d4f1f4 50%, #b8e994 50%, #7fb069 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+  opacity: 0.8;
+  animation: float 20s infinite ease-in-out;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+}
+
+.cloud-1 {
+  width: 100px;
+  height: 40px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.cloud-1::before {
+  width: 50px;
+  height: 40px;
+  top: -20px;
+  left: 10px;
+}
+
+.cloud-1::after {
+  width: 60px;
+  height: 30px;
+  top: -10px;
+  right: 10px;
+}
+
+.cloud-2 {
+  width: 120px;
+  height: 45px;
+  top: 20%;
+  right: 15%;
+  animation-delay: -5s;
+}
+
+.cloud-2::before {
+  width: 60px;
+  height: 45px;
+  top: -22px;
+  left: 15px;
+}
+
+.cloud-2::after {
+  width: 70px;
+  height: 35px;
+  top: -12px;
+  right: 15px;
+}
+
+.cloud-3 {
+  width: 90px;
+  height: 35px;
+  top: 15%;
+  left: 50%;
+  animation-delay: -10s;
+}
+
+.cloud-3::before {
+  width: 45px;
+  height: 35px;
+  top: -18px;
+  left: 12px;
+}
+
+.cloud-3::after {
+  width: 55px;
+  height: 28px;
+  top: -10px;
+  right: 12px;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(30px) translateY(-10px);
+  }
+}
+
+/* Logo at Top */
+.landing-logo {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 100;
+}
+
+.logo-bear {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.bear-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bear-ear {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: #d2691e;
+  border-radius: 50%;
+  border: 3px solid #8b4513;
+}
+
+.bear-ear-left {
+  top: 5px;
+  left: 5px;
+}
+
+.bear-ear-right {
+  top: 5px;
+  right: 5px;
+}
+
+.bear-head {
+  width: 60px;
+  height: 60px;
+  background: #d2691e;
+  border-radius: 50%;
+  border: 3px solid #8b4513;
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bear-eyes {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+.bear-eye {
+  width: 8px;
+  height: 8px;
+  background: #000;
+  border-radius: 50%;
+}
+
+.bear-nose {
+  width: 12px;
+  height: 10px;
+  background: #000;
+  border-radius: 50% 50% 50% 50%;
+}
+
+.bear-mouth {
+  width: 15px;
+  height: 8px;
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 0 50% 50%;
+  margin-top: 2px;
+}
+
+.logo-text h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #8b4513;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo-text p {
+  font-size: 0.7rem;
+  color: #8b4513;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Main Content */
+.landing-content {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  margin-top: 5rem;
+}
+
+/* Trees Background */
+.trees-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.tree {
+  position: absolute;
+  bottom: 50px;
+}
+
+.tree::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 60px;
+  background: #8b4513;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+}
+
+.tree::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: #2d5016;
+  border-radius: 50%;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    -20px -10px 0 -10px #4a7c29,
+    20px -10px 0 -10px #4a7c29,
+    0px -20px 0 -5px #3a6422;
+}
+
+.tree-1 {
+  left: 5%;
+}
+
+.tree-2 {
+  right: 8%;
+}
+
+.tree-3 {
+  left: 15%;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff9933;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: bubble-float 3s infinite ease-in-out;
+  z-index: 10;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #ff9933;
+}
+
+.speech-bubble p {
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+@keyframes bubble-float {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+/* Main Bear Character */
+.main-bear {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+.main-bear.bounce {
+  animation: bounce-animation 0.6s ease;
+}
+
+@keyframes bounce-animation {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-30px);
+  }
+}
+
+.bear-character {
+  position: relative;
+  width: 200px;
+  height: 250px;
+}
+
+.bear-ears {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ear {
+  width: 50px;
+  height: 50px;
+  background: #d2691e;
+  border-radius: 50%;
+  border: 5px solid #8b4513;
+  position: relative;
+}
+
+.ear::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #f4a460;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bear-face-main {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 120px;
+  background: #d2691e;
+  border-radius: 50%;
+  border: 5px solid #8b4513;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.eyes {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+.eye {
+  width: 18px;
+  height: 18px;
+  background: #000;
+  border-radius: 50%;
+  position: relative;
+}
+
+.pupil {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
+.nose-main {
+  width: 20px;
+  height: 16px;
+  background: #000;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.smile {
+  width: 30px;
+  height: 15px;
+  border: 3px solid #000;
+  border-top: none;
+  border-radius: 0 0 50% 50%;
+}
+
+.cheek {
+  position: absolute;
+  width: 25px;
+  height: 20px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  opacity: 0.6;
+  top: 65px;
+}
+
+.cheek-left {
+  left: 10px;
+}
+
+.cheek-right {
+  right: 10px;
+}
+
+.bear-body {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 80px;
+  background: #d2691e;
+  border-radius: 40px 40px 50px 50px;
+  border: 5px solid #8b4513;
+}
+
+.overalls {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 60px;
+  background: white;
+  border-radius: 20px 20px 30px 30px;
+  border: 3px solid #8b4513;
+}
+
+.strap {
+  position: absolute;
+  width: 12px;
+  height: 40px;
+  background: #ff9933;
+  border: 2px solid #8b4513;
+  border-radius: 5px;
+  top: -15px;
+}
+
+.strap-left {
+  left: 10px;
+}
+
+.strap-right {
+  right: 10px;
+}
+
+.arms {
+  position: relative;
+}
+
+.arm {
+  position: absolute;
+  width: 30px;
+  height: 60px;
+  background: #d2691e;
+  border-radius: 15px;
+  border: 3px solid #8b4513;
+  top: 20px;
+}
+
+.arm-left {
+  left: -25px;
+  transform: rotate(-20deg);
+}
+
+.arm-right {
+  right: -25px;
+  transform: rotate(20deg);
+}
+
+/* Start Sign */
+.start-sign {
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.start-button {
+  background: white;
+  border: 4px solid #8b4513;
+  border-radius: 20px;
+  padding: 1rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.start-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.start-button:active {
+  transform: scale(0.95);
+}
+
+.start-button.clicked {
+  animation: button-click 0.6s ease;
+}
+
+@keyframes button-click {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.start-text {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ff9933;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: 2px;
+}
+
+.sound-icon {
+  font-size: 1.5rem;
+  color: #ff9933;
+  animation: pulse-sound 2s infinite;
+}
+
+@keyframes pulse-sound {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* River */
+.river {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, #64b5f6, #42a5f5);
+  border-radius: 50% 50% 0 0;
+  overflow: hidden;
+}
+
+.water-flow {
+  position: absolute;
+  width: 200%;
+  height: 20px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.3) 25%, 
+    transparent 50%, 
+    rgba(255,255,255,0.3) 75%, 
+    transparent 100%);
+  animation: flow 3s linear infinite;
+}
+
+.water-flow-2 {
+  top: 30px;
+  animation-delay: -1.5s;
+}
+
+@keyframes flow {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Flowers */
+.flowers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.flower {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 80px;
+}
+
+.flower::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #ff6b9d 40%, #c44569 100%);
+  border-radius: 50%;
+  box-shadow: 
+    10px 0 0 -5px #ff6b9d,
+    -10px 0 0 -5px #ff6b9d,
+    0 10px 0 -5px #ff6b9d,
+    0 -10px 0 -5px #ff6b9d;
+}
+
+.flower::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #feca57;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flower-1 {
+  left: 10%;
+}
+
+.flower-2 {
+  left: 25%;
+}
+
+.flower-3 {
+  right: 15%;
+}
+
+.flower-4 {
+  right: 30%;
+}
+
+/* Small Animals */
+.small-animals {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.rabbit {
+  position: absolute;
+  width: 30px;
+  height: 35px;
+  bottom: 90px;
+}
+
+.rabbit::before {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #999;
+}
+
+.rabbit::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 20px;
+  background: white;
+  border: 2px solid #999;
+  border-radius: 5px 5px 0 0;
+  top: -18px;
+  left: 5px;
+  box-shadow: 10px 0 0 white, 10px 0 0 2px #999;
+}
+
+.rabbit-1 {
+  left: 18%;
+  animation: hop 2s infinite ease-in-out;
+}
+
+.rabbit-2 {
+  right: 20%;
+  animation: hop 2s infinite ease-in-out;
+  animation-delay: -1s;
+}
+
+@keyframes hop {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bird {
+  position: absolute;
+  width: 20px;
+  height: 15px;
+  top: 30%;
+}
+
+.bird::before,
+.bird::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 3px;
+  background: #ff6b6b;
+  border-radius: 5px;
+  animation: fly 1s infinite ease-in-out;
+}
+
+.bird::before {
+  left: 0;
+  transform-origin: right center;
+}
+
+.bird::after {
+  right: 0;
+  transform-origin: left center;
+  animation-delay: -0.5s;
+}
+
+@keyframes fly {
+  0%, 100% {
+    transform: rotate(-20deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}
+
+.bird-1 {
+  left: 30%;
+  animation: fly-across 10s infinite linear;
+}
+
+.bird-2 {
+  right: 25%;
+  top: 25%;
+  animation: fly-across 12s infinite linear;
+  animation-delay: -6s;
+}
+
+@keyframes fly-across {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .landing-logo {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .logo-bear {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .logo-text h1 {
+    font-size: 1.2rem;
+  }
+  
+  .logo-text p {
+    font-size: 0.6rem;
+  }
+  
+  .speech-bubble {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .speech-bubble p {
+    font-size: 1rem;
+  }
+  
+  .bear-character {
+    width: 150px;
+    height: 200px;
+    transform: scale(0.8);
+  }
+  
+  .start-button {
+    padding: 0.75rem 2rem;
+  }
+  
+  .start-text {
+    font-size: 1.5rem;
+  }
+  
+  .landing-content {
+    height: 400px;
+  }
+}
