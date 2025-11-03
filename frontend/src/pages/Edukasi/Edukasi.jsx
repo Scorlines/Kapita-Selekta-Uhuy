@@ -10,6 +10,31 @@ import bearSmileImage from '../../assets/senyum.png'
 function Edukasi() {
   const navigate = useNavigate()
 
+  const playSound = () => {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    oscillator.frequency.value = 600
+    oscillator.type = 'sine'
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2)
+
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 0.2)
+  }
+
+  const handleBackClick = () => {
+    playSound()
+    setTimeout(() => {
+      navigate('/menu')
+    }, 100)
+  }
+
   const handleMenuClick = (menu) => {
     console.log(`Navigating to ${menu}`)
     // Nanti bisa ditambahkan navigasi ke halaman spesifik
@@ -178,7 +203,7 @@ function Edukasi() {
 
         {/* Footer with Back Button */}
         <div className="footer-section">
-          <button className="back-button-footer" onClick={() => navigate('/menu')}>
+          <button className="back-button-footer" onClick={handleBackClick}>
             <span className="back-icon">↩</span>
             <span>BACK</span>
           </button>
