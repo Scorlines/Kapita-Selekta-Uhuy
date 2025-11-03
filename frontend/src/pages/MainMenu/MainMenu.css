@@ -111,25 +111,6 @@
   filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.2));
 }
 
-/* Legacy support - keep for backward compatibility */
-.bear-icon {
-  font-size: 12rem;
-  animation: wave 2s ease-in-out infinite;
-  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.2));
-}
-
-@keyframes wave {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-3deg);
-  }
-  75% {
-    transform: rotate(3deg);
-  }
-}
-
 .welcome-bubble {
   background: linear-gradient(135deg, #FFF9E6 0%, #FFE5B4 100%);
   padding: 16px 24px;
@@ -303,10 +284,6 @@
     width: 350px;
   }
 
-  .bear-icon {
-    font-size: 10rem;
-  }
-
   .welcome-bubble p {
     font-size: 1rem;
   }
@@ -347,10 +324,6 @@
     width: 280px;
   }
 
-  .bear-icon {
-    font-size: 8rem;
-  }
-
   .welcome-bubble {
     padding: 18px 22px;
     max-width: 90%;
@@ -385,10 +358,6 @@
 
   .bear-character-img {
     width: 220px;
-  }
-
-  .bear-icon {
-    font-size: 6rem;
   }
 
   .welcome-bubble p {

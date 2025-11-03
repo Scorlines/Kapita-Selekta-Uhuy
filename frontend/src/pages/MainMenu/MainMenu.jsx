@@ -87,7 +87,7 @@ function MainMenu() {
         
         <button 
           className="menu-btn menu-education"
-          onClick={() => handleMenuClick('/login')}
+          onClick={() => handleMenuClick('/edukasi')}
         >
           Edukasi
         </button>
