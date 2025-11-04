@@ -73,7 +73,7 @@ function MainMenu() {
       <div className="menu-buttons">
         <button 
           className="menu-btn menu-admin"
-          onClick={() => handleMenuClick('/dashboard')}
+          onClick={() => handleMenuClick('/admin')}
         >
           Admin
         </button>
