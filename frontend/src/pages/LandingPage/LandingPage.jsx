@@ -54,14 +54,14 @@ function LandingPage() {
 
   return (
     <div className="landing-page">
+      {/* Header Title */}
+      <div className="landing-header">
+        <h1 className="landing-title">Yuk, kita mulai petualangan anti-bullying bersama!</h1>
+      </div>
+
       {/* Logo Pojok Kanan */}
       <div className="corner-logo">
         <img src={logoImage} alt="Safe School Logo" />
-      </div>
-
-      {/* Speech Bubble */}
-      <div className="speech-bubble">
-        <p>Yuk, kita mulai petualangan anti-bullying bersama!</p>
       </div>
 
       {/* Main Bear Character with Sign */}

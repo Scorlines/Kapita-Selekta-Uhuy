@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FiUser, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiUser, FiLock, FiEye, FiEyeOff, FiArrowLeft } from 'react-icons/fi'
 import './Admin.css'
 import logoImage from '../../assets/logo pojok kanan .png'
 import bearImage from '../../assets/senyum.png'
@@ -29,6 +29,13 @@ function Admin() {
 
     oscillator.start(audioContext.currentTime)
     oscillator.stop(audioContext.currentTime + 0.2)
+  }
+
+  const handleBackClick = () => {
+    playSound()
+    setTimeout(() => {
+      navigate('/menu')
+    }, 200)
   }
 
   const handleMenuClick = (menu) => {
@@ -86,7 +93,7 @@ function Admin() {
         </div>
         <nav className="header-nav">
           <button className="nav-btn nav-btn-active" onClick={() => handleMenuClick('/admin')}>Admin</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/students')}>Laporkan</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
         </nav>
@@ -151,6 +158,12 @@ function Admin() {
           </button>
         </form>
       </div>
+
+      {/* Back Button */}
+      <button className="back-button-bottom" onClick={handleBackClick}>
+        <FiArrowLeft className="back-icon" />
+        <span>BACK</span>
+      </button>
     </div>
   )
 }
