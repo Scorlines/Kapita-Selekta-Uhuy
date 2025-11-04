@@ -1,6 +1,7 @@
 .edukasi-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFF4D6 0%, #FFE5A3 100%);
+  background: linear-gradient(180deg, #fff4d6 0%, #ffe5a3 100%);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -37,7 +38,7 @@
 .brand-title {
   font-size: 1.2rem;
   font-weight: 800;
-  color: #5D4037;
+  color: #5d4037;
   margin: 0;
   line-height: 1.2;
 }
@@ -45,7 +46,7 @@
 .brand-subtitle {
   font-size: 1rem;
   font-weight: 700;
-  color: #5D4037;
+  color: #5d4037;
   margin: 2px 0 0 0;
   line-height: 1.2;
 }
@@ -59,7 +60,7 @@
 
 .nav-btn {
   background: white;
-  color: #5D4037;
+  color: #5d4037;
   border: none;
   border-radius: 50px;
   padding: 12px 30px;
@@ -80,7 +81,7 @@
 }
 
 .nav-btn-active {
-  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
@@ -103,7 +104,7 @@
 .content-text h2 {
   font-size: 3rem;
   font-weight: 900;
-  color: #5D4037;
+  color: #5d4037;
   margin: 0 0 20px 0;
   line-height: 1.2;
 }
@@ -111,7 +112,7 @@
 .content-text p {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #5D4037;
+  color: #5d4037;
   line-height: 1.6;
   margin: 0;
 }
@@ -131,7 +132,9 @@
 }
 
 @keyframes floatBear {
-  0%, 100% {
+  0%,
+  100% {
+    /* use transform consistently for animations */
     transform: translateY(0px);
   }
   50% {
@@ -169,7 +172,6 @@
   align-items: center;
 }
 
-
 .bear-think {
   width: 280px;
   height: auto;
@@ -180,16 +182,16 @@
   position: absolute;
   top: -20px;
   left: 80px;
-  background: linear-gradient(135deg, #FFE5B4 0%, #FFF9E6 100%);
+  background: linear-gradient(135deg, #ffe5b4 0%, #fff9e6 100%);
   padding: 15px 25px;
   border-radius: 20px;
-  border: 3px solid #8B4513;
+  border: 3px solid #8b4513;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
 
 .speech-bubble-question::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -15px;
   left: 50%;
@@ -198,14 +200,14 @@
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-top: 15px solid #8B4513;
+  border-top: 15px solid #8b4513;
 }
 
 .speech-bubble-question p {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 800;
-  color: #5D4037;
+  color: #5d4037;
   white-space: nowrap;
 }
 
@@ -216,7 +218,7 @@
 .tentang-title {
   font-size: 2.5rem;
   font-weight: 900;
-  color: #FF6B35;
+  color: #ff6b35;
   margin: 0 0 25px 0;
   line-height: 1.2;
 }
@@ -224,7 +226,7 @@
 .tentang-text {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #5D4037;
+  color: #5d4037;
   line-height: 1.7;
   margin: 0 0 20px 0;
 }
@@ -235,7 +237,7 @@
 
 /* Jenis-Jenis Bullying Section */
 .jenis-bullying-section {
-  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
   padding: 80px 60px;
   min-height: 100vh;
   display: flex;
@@ -277,7 +279,7 @@
 .card-title {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #FF6B35;
+  color: #ff6b35;
   margin: 0 0 15px 0;
   text-align: center;
 }
@@ -285,7 +287,7 @@
 .card-text {
   font-size: 1rem;
   font-weight: 500;
-  color: #5D4037;
+  color: #5d4037;
   line-height: 1.7;
   margin: 0;
   text-align: center;
@@ -316,7 +318,7 @@
 .dampak-title {
   font-size: 2.8rem;
   font-weight: 900;
-  color: #FF6B35;
+  color: #ff6b35;
   margin: 0 0 20px 0;
   line-height: 1.2;
 }
@@ -324,7 +326,7 @@
 .dampak-intro {
   font-size: 1rem;
   font-weight: 500;
-  color: #5D4037;
+  color: #5d4037;
   line-height: 1.7;
   margin: 0 0 15px 0;
 }
@@ -338,7 +340,7 @@
 
 .dampak-btn {
   background: #dadf74;
-  color: #5D4037;
+  color: #5d4037;
   border: none;
   border-radius: 50px;
   padding: 18px 30px;
@@ -409,10 +411,10 @@
 }
 
 .speech-bubble-story {
-  background: #FFF9E6;
+  background: #fff9e6;
   padding: 20px 30px;
   border-radius: 20px;
-  border: 3px solid #FF8C42;
+  border: 3px solid #ff8c42;
   position: relative;
   max-width: 300px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -420,7 +422,7 @@
 }
 
 .speech-bubble-story::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -20px;
   left: 20%;
@@ -428,11 +430,11 @@
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 20px solid #FF8C42;
+  border-top: 20px solid #ff8c42;
 }
 
 .speech-bubble-story::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -14px;
   left: 20%;
@@ -441,11 +443,11 @@
   height: 0;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
-  border-top: 17px solid #FFF9E6;
+  border-top: 17px solid #fff9e6;
 }
 
 .speech-bubble-story p {
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1.1rem;
   font-weight: 600;
   line-height: 1.6;
@@ -461,7 +463,7 @@
 }
 
 .pesan-title {
-  color: #FF6B35;
+  color: #ff6b35;
   font-size: 2.2rem;
   font-weight: 800;
   margin: 0 0 15px 0;
@@ -484,7 +486,7 @@
 }
 
 .pesan-list li {
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1.15rem;
   font-weight: 600;
   line-height: 1.6;
@@ -503,13 +505,13 @@
   gap: 40px;
   width: 100vw;
   max-width: 100vw;
-  background: linear-gradient(to bottom, #FFF9E6, #FFE5B4);
+  background: linear-gradient(to bottom, #fff9e6, #ffe5b4);
   padding: 30px 80px;
   box-sizing: border-box;
 }
 
 .back-button-footer {
-  background: linear-gradient(135deg, #FF8C42, #FF6B35);
+  background: linear-gradient(135deg, #ff8c42, #ff6b35);
   color: white;
   border: none;
   padding: 15px 45px;
@@ -541,7 +543,7 @@
 }
 
 .footer-center-text {
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1rem;
   font-weight: 700;
   margin: 0;
@@ -550,7 +552,7 @@
 
 .footer-text {
   text-align: right;
-  color: #5D4037;
+  color: #5d4037;
   font-size: 1rem;
   font-weight: 600;
   margin: 0;

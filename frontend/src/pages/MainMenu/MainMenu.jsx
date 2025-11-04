@@ -78,9 +78,9 @@ function MainMenu() {
           Admin
         </button>
         
-        <button 
+        <button
           className="menu-btn menu-report"
-          onClick={() => handleMenuClick('/students')}
+          onClick={() => handleMenuClick('/laporkan')}
         >
           Laporkan
         </button>

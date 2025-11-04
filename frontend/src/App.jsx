@@ -6,6 +6,7 @@ import Login from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Students from './pages/Students/Students'
 import Edukasi from './pages/Edukasi/Edukasi'
+import Laporkan from './pages/Laporkan/Laporkan'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/menu" element={<MainMenu />} />
         <Route path="/edukasi" element={<Edukasi />} />
+        <Route path="/laporkan" element={<Laporkan />} />
         <Route path="/login" element={<Login />} />
         <Route path="/app" element={<Layout />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />

@@ -1,76 +1,42 @@
+import { useState, useEffect } from 'react'
 import { FiUsers, FiAlertTriangle, FiCheckCircle, FiTrendingUp } from 'react-icons/fi'
+import api from '../../utils/api'
 import './Dashboard.css'
 
 function Dashboard() {
-  const stats = [
-    {
-      title: 'Total Students',
-      value: '1,245',
-      change: '+12%',
-      icon: <FiUsers />,
-      color: 'primary',
-      trend: 'up'
-    },
-    {
-      title: 'Active Incidents',
-      value: '8',
-      change: '-5%',
-      icon: <FiAlertTriangle />,
-      color: 'warning',
-      trend: 'down'
-    },
-    {
-      title: 'Resolved Cases',
-      value: '156',
-      change: '+23%',
-      icon: <FiCheckCircle />,
-      color: 'success',
-      trend: 'up'
-    },
-    {
-      title: 'Safety Score',
-      value: '94%',
-      change: '+3%',
-      icon: <FiTrendingUp />,
-      color: 'info',
-      trend: 'up'
-    }
-  ]
+  const [stats, setStats] = useState([])
+  const [recentIncidents, setRecentIncidents] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const recentIncidents = [
-    {
-      id: 1,
-      type: 'Bullying',
-      student: 'John Doe',
-      date: '2025-11-01',
-      status: 'Investigating',
-      severity: 'high'
-    },
-    {
-      id: 2,
-      type: 'Absence',
-      student: 'Jane Smith',
-      date: '2025-11-01',
-      status: 'Resolved',
-      severity: 'low'
-    },
-    {
-      id: 3,
-      type: 'Medical',
-      student: 'Mike Johnson',
-      date: '2025-10-31',
-      status: 'In Progress',
-      severity: 'medium'
-    },
-    {
-      id: 4,
-      type: 'Security',
-      student: 'Sarah Williams',
-      date: '2025-10-30',
-      status: 'Resolved',
-      severity: 'high'
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const [statsData, incidentsData] = await Promise.all([
+          api.getDashboardStats(),
+          api.getIncidents({ limit: 4 })
+        ])
+
+        setStats(statsData.stats || [])
+        setRecentIncidents(incidentsData.incidents || [])
+      } catch (err) {
+        setError('Failed to load dashboard data')
+        console.error('Dashboard error:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchDashboardData()
+  }, [])
+
+  if (loading) {
+    return <div className="dashboard"><div className="loading">Loading dashboard...</div></div>
+  }
+
+  if (error) {
+    return <div className="dashboard"><div className="error">{error}</div></div>
+  }
 
   return (
     <div className="dashboard">
