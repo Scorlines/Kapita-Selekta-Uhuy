@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FiShield, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi'
+import api from '../../utils/api'
 import './Login.css'
 
 function Login() {
@@ -10,11 +11,23 @@ function Login() {
     email: '',
     password: ''
   })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Add authentication logic here
-    navigate('/app/dashboard')
+    setLoading(true)
+    setError('')
+
+    try {
+      const response = await api.login(formData)
+      localStorage.setItem('authToken', response.token)
+      navigate('/app/dashboard')
+    } catch (err) {
+      setError(err.message || 'Login failed')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -94,8 +107,10 @@ function Login() {
                 <a href="#" className="forgot-password">Forgot Password?</a>
               </div>
 
-              <button type="submit" className="btn btn-primary btn-full">
-                Sign In
+              {error && <div className="error-message">{error}</div>}
+
+              <button type="submit" className="btn btn-primary btn-full" disabled={loading}>
+                {loading ? 'Signing In...' : 'Sign In'}
               </button>
             </form>
 

@@ -1,62 +1,56 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FiPlus, FiSearch, FiEdit, FiTrash2, FiEye } from 'react-icons/fi'
+import api from '../../utils/api'
 import './Students.css'
 
 function Students() {
+  const [students, setStudents] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [gradeFilter, setGradeFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const students = [
-    {
-      id: 1,
-      name: 'John Doe',
-      studentId: 'STU001',
-      grade: '10A',
-      parent: 'Robert Doe',
-      phone: '+62 812-3456-7890',
-      status: 'active',
-      incidents: 0
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      studentId: 'STU002',
-      grade: '10B',
-      parent: 'Mary Smith',
-      phone: '+62 813-4567-8901',
-      status: 'active',
-      incidents: 1
-    },
-    {
-      id: 3,
-      name: 'Mike Johnson',
-      studentId: 'STU003',
-      grade: '11A',
-      parent: 'James Johnson',
-      phone: '+62 814-5678-9012',
-      status: 'active',
-      incidents: 0
-    },
-    {
-      id: 4,
-      name: 'Sarah Williams',
-      studentId: 'STU004',
-      grade: '11B',
-      parent: 'Linda Williams',
-      phone: '+62 815-6789-0123',
-      status: 'inactive',
-      incidents: 2
-    },
-    {
-      id: 5,
-      name: 'David Brown',
-      studentId: 'STU005',
-      grade: '12A',
-      parent: 'Michael Brown',
-      phone: '+62 816-7890-1234',
-      status: 'active',
-      incidents: 0
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const params = {}
+        if (searchTerm) params.search = searchTerm
+        if (gradeFilter) params.grade = gradeFilter
+        if (statusFilter) params.status = statusFilter
+
+        const response = await api.getStudents(params)
+        setStudents(response.students || [])
+      } catch (err) {
+        setError('Failed to load students')
+        console.error('Students error:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchStudents()
+  }, [searchTerm, gradeFilter, statusFilter])
+
+  const handleDeleteStudent = async (id) => {
+    if (window.confirm('Are you sure you want to delete this student?')) {
+      try {
+        await api.deleteStudent(id)
+        setStudents(students.filter(student => student.id !== id))
+      } catch (err) {
+        setError('Failed to delete student')
+        console.error('Delete error:', err)
+      }
+    }
+  }
+
+  if (loading) {
+    return <div className="students-page"><div className="loading">Loading students...</div></div>
+  }
+
+  if (error) {
+    return <div className="students-page"><div className="error">{error}</div></div>
+  }
 
   return (
     <div className="students-page">
@@ -82,13 +76,21 @@ function Students() {
             />
           </div>
           <div className="filter-group">
-            <select className="filter-select">
+            <select
+              className="filter-select"
+              value={gradeFilter}
+              onChange={(e) => setGradeFilter(e.target.value)}
+            >
               <option value="">All Grades</option>
               <option value="10">Grade 10</option>
               <option value="11">Grade 11</option>
               <option value="12">Grade 12</option>
             </select>
-            <select className="filter-select">
+            <select
+              className="filter-select"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
               <option value="">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -136,7 +138,11 @@ function Students() {
                       <button className="action-btn edit" title="Edit">
                         <FiEdit />
                       </button>
-                      <button className="action-btn delete" title="Delete">
+                      <button
+                        className="action-btn delete"
+                        title="Delete"
+                        onClick={() => handleDeleteStudent(student.id)}
+                      >
                         <FiTrash2 />
                       </button>
                     </div>
