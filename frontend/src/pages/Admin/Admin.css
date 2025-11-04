@@ -249,6 +249,56 @@
   background: linear-gradient(135deg, #8D6E63 0%, #6D4C41 100%);
 }
 
+/* Back Button Bottom */
+.back-button-bottom {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 35px;
+  min-width: 120px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-button-bottom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff9752 0%, #ff7645 100%);
+}
+
+.back-button-bottom:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.5);
+}
+
+.back-button-bottom .back-icon {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.back-button-bottom span {
+  pointer-events: none;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .admin-header {
@@ -295,6 +345,22 @@
   .form-group {
     max-width: 100%;
   }
+
+  .back-button-bottom {
+    bottom: 20px;
+    left: 20px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+
+  .back-button-bottom .back-icon {
+    font-size: 1.1rem;
+  }
+
+  .back-button-bottom span {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -332,4 +398,22 @@
     padding: 14px 35px;
     font-size: 1.1rem;
   }
+
+  .back-button-bottom {
+    bottom: 15px;
+    left: 15px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 90px;
+    gap: 8px;
+  }
+
+  .back-button-bottom .back-icon {
+    font-size: 1rem;
+  }
+
+  .back-button-bottom span {
+    font-size: 0.9rem;
+  }
 }
+

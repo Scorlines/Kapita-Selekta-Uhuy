@@ -11,9 +11,9 @@
 }
 
 /* Reset dan Base Styles */
-.main-menu-page {
+.laporkan-page {
   min-height: 100vh;
-  background-image: url("../../assets/background.png");
+  background-image: url("../../assets/background transparan.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -25,19 +25,8 @@
   padding: 0;
 }
 
-.background-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(217, 217, 217, 0.5);
-  backdrop-filter: blur(1.5px);
-  z-index: 1;
-}
-
-/* Header Section */
-.header-section {
+/* Header */
+.laporkan-header {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -71,283 +60,269 @@
   transform: scale(0.95);
 }
 
-back-icon {
-  font-size: 1.2rem;
-}
-
-.back-arrow {
-  width: 9.125rem;
-  height: 6.125rem;
-  background: var(--accent-color);
-  border-radius: 50%;
-  position: relative;
-  box-shadow: var(--shadow-light);
-}
-
-.back-arrow::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 3rem;
-  height: 3rem;
-  border-left: 4px solid var(--dark-brown);
-  border-bottom: 4px solid var(--dark-brown);
-  transform: translate(-30%, -50%) rotate(45deg);
-}
-
-.back-text {
-  font-family: 'Baloo 2', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 1.5625rem;
-  font-weight: 400;
-  color: var(--dark-brown);
-  text-align: center;
-}
-
-.title-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  margin: 0 2rem;
-}
-
-.main-title {
-  background: var(--primary-color);
-  border-radius: 50px;
-  padding: 0.625rem 3rem;
-  color: var(--light-beige);
-  font-family: 'Comic Neue', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 6.25rem;
-  font-weight: 700;
-  line-height: 1;
-  box-shadow: var(--shadow);
-  text-align: center;
-  margin: 0;
-}
-
-.logo-container {
-  width: 12.625rem;
-  height: 12.625rem;
-}
-
-.school-logo {
-  width: 100%;
-  height: 100%;
-  background: var(--accent-color);
-  border-radius: 50%;
-  border: 3px solid var(--dark-brown);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: url('../../assets/logo\ pojok\ kanan\ .png');
-  background-size: 70%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
 /* Content Section */
-.content-section {
+.laporkan-content {
   position: relative;
   z-index: 5;
   display: flex;
+  padding: 1rem 2rem 2rem 2rem;
+  gap: 2rem;
+  align-items: flex-start;
+  min-height: calc(100vh - 100px);
+}
+
+/* Bear Section */
+.bear-section {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-}
-
-/* Mascot Section */
-.mascot-section {
-  position: relative;
-  width: 100%;
-  max-width: 28.625rem;
-  margin: 0 auto 2rem;
-}
-
-.speech-bubble-container {
-  position: relative;
-  z-index: 2;
+  align-items: flex-start;
+  width: 400px;
+  z-index: 10;
 }
 
 .speech-bubble {
-  background: var(--accent-color);
-  border: 5px solid var(--dark-brown);
-  border-radius: 50%;
-  padding: 2.5rem 3rem;
-  box-shadow: var(--shadow);
+  background: linear-gradient(135deg, #FFF4D6 0%, #FFE5B4 100%);
+  border: 4px solid #8B4513;
+  border-radius: 25px;
+  padding: 18px 22px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   position: relative;
+  margin-bottom: 15px;
+  margin-left: 100px;
+  z-index: 2;
+  max-width: 300px;
 }
 
-.bubble-tail {
-  position: absolute;
-  bottom: -2rem;
-  left: 2.5rem;
-  width: 0;
-  height: 0;
-  border-left: 2rem solid transparent;
-  border-right: 2rem solid transparent;
-  border-top: 3rem solid var(--accent-color);
-  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
-  z-index: 1;
-}
-
-.bubble-tail::after {
+.speech-bubble::after {
   content: '';
   position: absolute;
-  top: -3.3rem;
-  left: -2rem;
+  bottom: -18px;
+  left: 30px;
   width: 0;
   height: 0;
-  border-left: 2rem solid transparent;
-  border-right: 2rem solid transparent;
-  border-top: 3rem solid var(--dark-brown);
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 18px solid #8B4513;
 }
 
-.greeting {
-  font-family: 'Baloo 2', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 1.5625rem;
-  color: var(--dark-brown);
-  margin: 0 0 0.5rem 0;
-  font-weight: 400;
-}
-
-.message {
-  font-family: 'Baloo 2', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 1.5625rem;
-  color: var(--dark-brown);
-  margin: 0;
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-.bear-mascot {
+.speech-bubble::before {
+  content: '';
   position: absolute;
-  bottom: -8rem;
-  left: -2rem;
-  width: 25.375rem;
-  height: 23.9375rem;
-  background: linear-gradient(135deg, #C17843 0%, #8B5A3C 100%);
-  border-radius: 50%;
+  bottom: -13px;
+  left: 34px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 15px solid #FFF4D6;
   z-index: 1;
-  background-image: url('../../assets/jempol.png');
-  background-size: cover;
-  background-position: center;
 }
 
-/* Shield dan Safety */
-.shield-icon {
-  width: 10.625rem;
-  height: 11.875rem;
-  background: linear-gradient(135deg, #FFB84D 0%, var(--primary-color) 100%);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  margin-bottom: 1.5rem;
-  border: 3px solid var(--dark-brown);
-  box-shadow: var(--shadow);
+.speech-bubble p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #5D4037;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
 }
 
-.safety-heading {
-  font-family: 'Fredoka One', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 3.125rem;
-  font-weight: 400;
-  color: var(--dark-brown);
-  margin: 0 0 2rem 0;
-  text-align: center;
+.bear-character {
+  width: 280px;
+  height: auto;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
 }
 
-/* Report Button */
-.report-button {
-  background: var(--primary-color);
-  border: none;
-  border-radius: 3.0625rem;
-  padding: 1.25rem 4rem;
-  color: var(--light-beige);
-  font-family: 'Baloo 2', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 2.8125rem;
-  font-weight: 400;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
-  margin-bottom: 3rem;
-}
-
-.report-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.3);
-}
-
-.report-button:active {
-  transform: scale(0.98);
-}
-
-/* Form Fields */
-.form-fields {
-  display: flex;
-  gap: 1.25rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 67.75rem;
-}
-
-.field-item {
-  position: relative;
-  background: var(--secondary-color);
-  border-radius: 1.25rem;
-  padding: 1rem 1.5rem;
-  min-width: 15.8125rem;
+/* Main Content */
+.main-content {
+  position: absolute;
+  top: 120px;
+  right: 80px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  box-shadow: var(--shadow-light);
-  transition: transform 0.3s ease;
-  cursor: pointer;
+  align-items: flex-end;
+  gap: 1.5rem;
+  z-index: 5;
 }
 
-.field-item:hover {
+.main-heading {
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: #5D4037;
+  text-align: right;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  line-height: 1.1;
+}
+
+.lapor-button {
+  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 50px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lapor-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
+}
+
+.lapor-button:active {
+  transform: translateY(0);
+}
+
+/* Field Buttons */
+.field-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  padding: 0 20px;
+  z-index: 5;
+}
+
+.field-btn {
+  background: linear-gradient(135deg, #D3E671 0%, #B8D25A 100%);
+  border: 3px solid #5D4037;
+  border-radius: 20px;
+  padding: 12px 20px;
+  min-width: 160px;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+.field-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.field-btn:active {
+  transform: translateY(0);
 }
 
 .field-icon {
-  width: 4.6875rem;
-  height: 4.75rem;
-  background: var(--accent-color);
-  border-radius: 50%;
-  margin-bottom: 0.5rem;
-  border: 2px solid var(--dark-green);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.icon-what {
-  background: radial-gradient(circle, #FFD700 0%, #FFA500 100%);
-}
-
-.icon-when {
-  background: radial-gradient(circle, #FFE5B4 0%, #FFD700 100%);
-}
-
-.icon-who {
-  background: radial-gradient(circle, #87CEEB 0%, #4682B4 100%);
-}
-
-.icon-where {
-  background: radial-gradient(circle, #98FB98 0%, #32CD32 100%);
-}
-
-.field-label {
-  font-family: 'Comic Neue', -apple-system, Roboto, Helvetica, sans-serif;
-  font-size: 2.5rem;
+.field-text {
+  font-size: 0.95rem;
   font-weight: 700;
-  color: var(--dark-green);
+  color: #5D4037;
   text-align: center;
   line-height: 1.2;
 }
 
-.field-arrow {
-  width: 1.6875rem;
-  height: 1.1875rem;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 19"><path fill="%23FFD700" d="M0,9.5 L22,9.5 L15,2.5 L17,0.5 L27,9.5 L17,18.5 L15,16.5 L22,9.5"/></svg>') no-repeat center;
-  background-size: contain;
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 35px;
+  min-width: 120px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff9752 0%, #ff7645 100%);
+}
+
+.back-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 10px rgba(255, 107, 53, 0.5);
+}
+
+.back-icon {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.back-button span {
+  pointer-events: none;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  margin-left: -100px;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  padding: 15px 40px;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  display: inline-block;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.corner-logo {
+  width: 80px;
+}
+
+.corner-logo img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: floatLogo 3s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Report Form Overlay */
@@ -531,118 +506,190 @@ back-icon {
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .main-title {
-    font-size: 5rem;
-    padding: 0.5rem 2.5rem;
+  .laporkan-content {
+    padding: 2rem 2rem;
+    gap: 2rem;
   }
 
-  .safety-heading {
-    font-size: 2.5rem;
+  .main-heading {
+    font-size: 3rem;
   }
 
-  .report-button {
-    font-size: 2.25rem;
-    padding: 1rem 3rem;
+  .lapor-button {
+    font-size: 1.6rem;
+    padding: 16px 50px;
   }
 }
 
 @media (max-width: 768px) {
-  .header-section {
+  .laporkan-header {
     flex-direction: column;
     gap: 1rem;
+    align-items: center;
   }
 
-  .main-title {
-    font-size: 3.5rem;
-    padding: 0.5rem 2rem;
+  .header-title {
+    margin-left: 0;
   }
 
-  .logo-container {
-    width: 8rem;
-    height: 8rem;
+  .header-title h1 {
+    font-size: 1.5rem;
+    padding: 12px 30px;
   }
 
-  .speech-bubble {
-    padding: 2rem;
+  .laporkan-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 2rem;
+    gap: 2rem;
   }
 
-  .greeting,
-  .message {
-    font-size: 1.25rem;
+  .bear-section {
+    width: 100%;
+    max-width: 300px;
   }
 
-  .safety-heading {
-    font-size: 2rem;
+  .speech-bubble p {
+    font-size: 0.9rem;
   }
 
-  .report-button {
-    font-size: 1.75rem;
-    padding: 0.875rem 2.5rem;
+  .bear-character {
+    width: 200px;
   }
 
-  .form-fields {
+  .main-content {
+    position: relative;
+    top: auto;
+    right: auto;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .main-heading {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .lapor-button {
+    font-size: 1.4rem;
+    padding: 14px 40px;
+  }
+
+  .field-buttons {
     gap: 1rem;
+    bottom: 20px;
+    padding: 0 15px;
   }
 
-  .field-item {
-    min-width: 12rem;
+  .field-btn {
+    min-width: 150px;
+    padding: 12px 20px;
   }
 
-  .field-label {
-    font-size: 2rem;
+  .field-icon {
+    font-size: 1.5rem;
+  }
+
+  .field-text {
+    font-size: 1rem;
+  }
+
+  .corner-logo {
+    width: 60px;
+  }
+
+  .back-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+
+  .back-icon {
+    font-size: 1.1rem;
+  }
+
+  .back-button span {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .main-title {
-    font-size: 2.5rem;
-    padding: 0.5rem 1.5rem;
+  .laporkan-header {
+    padding: 15px 15px;
   }
 
-  .back-arrow {
-    width: 6rem;
-    height: 4rem;
+  .header-title h1 {
+    font-size: 1.2rem;
+    padding: 10px 20px;
   }
 
-  .back-text {
-    font-size: 1.125rem;
+  .laporkan-content {
+    padding: 1rem 1rem;
   }
 
-  .logo-container {
-    width: 6rem;
-    height: 6rem;
+  .bear-section {
+    width: 100%;
   }
 
   .speech-bubble {
-    padding: 1.5rem;
+    padding: 15px 20px;
   }
 
-  .greeting,
-  .message {
-    font-size: 1rem;
+  .speech-bubble p {
+    font-size: 0.85rem;
   }
 
-  .safety-heading {
-    font-size: 1.5rem;
+  .bear-character {
+    width: 180px;
   }
 
-  .report-button {
-    font-size: 1.5rem;
-    padding: 0.75rem 2rem;
+  .main-content {
+    position: relative;
+    top: auto;
+    right: auto;
+    align-items: center;
+    margin: 0 auto;
   }
 
-  .field-item {
-    min-width: 10rem;
-    padding: 0.75rem 1rem;
+  .main-heading {
+    font-size: 2rem;
+    text-align: center;
   }
 
-  .field-label {
-    font-size: 1.5rem;
+  .lapor-button {
+    font-size: 1.2rem;
+    padding: 12px 35px;
+  }
+
+  .field-buttons {
+    gap: 0.8rem;
+    bottom: 15px;
+    padding: 0 10px;
+  }
+
+  .field-btn {
+    min-width: 130px;
+    padding: 10px 15px;
+    flex-direction: column;
+    text-align: center;
   }
 
   .field-icon {
-    width: 3.5rem;
-    height: 3.5rem;
+    font-size: 1.3rem;
+  }
+
+  .field-text {
+    font-size: 0.9rem;
+  }
+
+  .corner-logo {
+    width: 50px;
+  }
+
+  .back-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 85px;
   }
 
   .report-form {

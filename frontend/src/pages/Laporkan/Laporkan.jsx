@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import './Laporkan.css';
 import logoImage from '../../assets/logo pojok kanan .png';
-import bearImage from '../../assets/jempol.png';
+import bearImage from '../../assets/sapa.png';
 
 function Laporkan() {
   const navigate = useNavigate();
@@ -35,11 +35,11 @@ function Laporkan() {
   };
 
   const handleBackClick = () => {
-    playSound();
-    setTimeout(() => {
-      navigate('/');
-    }, 200);
-  };
+  playSound();
+  setTimeout(() => {
+    navigate('/menu');
+  }, 200);
+};
 
   const handleReportClick = () => {
     setShowForm(true);
@@ -62,11 +62,9 @@ function Laporkan() {
   };
 
   return (
-    <div className="main-menu-page">
-      <div className="background-overlay"></div>
-      
+    <div className="laporkan-page">
       {/* Header */}
-      <div className="menu-header">
+      <div className="laporkan-header">
         <button className="back-button" onClick={handleBackClick}>
           <FiArrowLeft className="back-icon" />
           <span>BACK</span>
@@ -81,13 +79,46 @@ function Laporkan() {
         </div>
       </div>
 
-      {/* Menu Buttons */}
-      <div className="menu-buttons">
-        <button
-          className="menu-btn menu-report"
-          onClick={handleReportClick}
-        >
-          Laporkan
+      {/* Content Section */}
+      <div className="laporkan-content">
+        {/* Bear and Speech Bubble */}
+        <div className="bear-section">
+          <div className="speech-bubble">
+            <p>
+              Halo, teman-teman hebat! 👋 Nobi di sini untuk jadi sahabat rahasiamu. 
+              Ceritakan apa yang terjadi, aku akan menjaga rahasiamu 🤫
+            </p>
+          </div>
+          <img src={bearImage} alt="Bear Character" className="bear-character" />
+        </div>
+
+        {/* Main Content */}
+        <div className="main-content">
+          <h2 className="main-heading">LINGKUNGAN KITA AMAN!</h2>
+          
+          <button className="lapor-button" onClick={handleReportClick}>
+            LAPOR SEKARANG
+          </button>
+        </div>
+      </div>
+
+      {/* Field Buttons */}
+      <div className="field-buttons">
+        <button className="field-btn field-what">
+          <span className="field-icon">⏰</span>
+          <span className="field-text">Apa yang terjadi?</span>
+        </button>
+        <button className="field-btn field-when">
+          <span className="field-icon">📅</span>
+          <span className="field-text">Kapan itu terjadi?</span>
+        </button>
+        <button className="field-btn field-who">
+          <span className="field-icon">😊</span>
+          <span className="field-text">Siapa yang terlibat?</span>
+        </button>
+        <button className="field-btn field-where">
+          <span className="field-icon">🔒</span>
+          <span className="field-text">Lokasi Kejadian</span>
         </button>
       </div>
 
@@ -150,15 +181,6 @@ function Laporkan() {
           </div>
         </div>
       )}
-
-      <div className="decorative-elements">
-        <div className="tree-left"></div>
-        <div className="tree-right"></div>
-        <div className="plant-bottom-left"></div>
-        <div className="plant-bottom-center"></div>
-        <div className="plant-bottom-right"></div>
-        <div className="shield-small"></div>
-      </div>
     </div>
   );
 }
