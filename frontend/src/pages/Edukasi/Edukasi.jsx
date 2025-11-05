@@ -5,7 +5,7 @@ import bearImage from '../../assets/jempol.png'
 import bearThinkImage from '../../assets/mikir.png'
 import bearWhistleImage from '../../assets/niup peluit.png'
 import bearSadImage from '../../assets/ngeluh.png'
-import bearSmileImage from '../../assets/senyum.png'
+import bearSmileImage from '../../assets/sapa.png'
 
 function Edukasi() {
   const navigate = useNavigate()

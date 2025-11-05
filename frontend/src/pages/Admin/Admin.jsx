@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FiUser, FiLock, FiEye, FiEyeOff, FiArrowLeft } from 'react-icons/fi'
 import './Admin.css'
 import logoImage from '../../assets/logo pojok kanan .png'
-import bearImage from '../../assets/senyum.png'
+import bearImage from '../../assets/sapa.png'
 
 function Admin() {
   const navigate = useNavigate()
