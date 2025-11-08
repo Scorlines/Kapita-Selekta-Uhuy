@@ -8,6 +8,7 @@ import Students from './pages/Students/Students'
 import Edukasi from './pages/Edukasi/Edukasi'
 import Admin from './pages/Admin/Admin'
 import Laporkan from './pages/Laporkan/Laporkan'
+import Chat from './pages/Chat/Chat'
 import './App.css'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/laporkan" element={<Laporkan />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/app" element={<Layout />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
