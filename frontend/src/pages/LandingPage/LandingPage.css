@@ -75,7 +75,7 @@
 }
 
 .bear-character {
-  width: 300px;
+  width: 350px !important;
   height: auto;
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
   transition: transform 0.3s ease;
@@ -99,7 +99,7 @@
 /* Start Button - Positioned on the bear's sign */
 .start-button {
   position: absolute;
-  bottom: 33px;
+  bottom: 45px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -162,11 +162,11 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .bear-character {
-    width: 280px;
+    width: 300px !important;
   }
 
   .start-button {
-    bottom: 35px;
+    bottom: 23px;
     font-size: 1.6rem;
     padding: 12px 40px;
   }
@@ -192,11 +192,11 @@
   }
 
   .bear-character {
-    width: 240px;
+    width: 260px !important;
   }
 
   .start-button {
-    bottom: 30px;
+    bottom: 20px;
     font-size: 1.4rem;
     padding: 10px 35px;
   }
@@ -226,11 +226,11 @@
   }
 
   .bear-character {
-    width: 200px;
+    width: 220px !important;
   }
 
   .start-button {
-    bottom: 25px;
+    bottom: 18px;
     font-size: 1.2rem;
     padding: 8px 30px;
   }
