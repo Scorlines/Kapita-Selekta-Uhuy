@@ -4,11 +4,13 @@ import { FiArrowLeft } from 'react-icons/fi';
 import './Laporkan.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
+import { reportStorage } from '../../utils/reportStorage';
 
 function Laporkan() {
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
+    name: '',
     what: '',
     when: '',
     who: '',
@@ -47,11 +49,35 @@ function Laporkan() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically send the data to an API
-    alert('Laporan berhasil dikirim! Terima kasih atas partisipasi Anda.');
+    
+    // Siapkan data laporan
+    const reportData = {
+      what: formData.what,
+      when: formData.when,
+      who: formData.who,
+      where: formData.where,
+      type: reportStorage.getBullyingType(formData.what) + ' 9/10'
+    };
+
+    // Simpan laporan ke localStorage
+    const savedReport = reportStorage.saveReport(reportData);
+    
+    console.log('Report saved:', savedReport);
+    
+    // Tampilkan pesan sukses dengan informasi lebih detail
+    alert(`Laporan berhasil dikirim! 
+    
+ID Laporan: ${savedReport.id}
+Status: ${savedReport.status}
+    
+Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti laporan ini.`);
+    
+    // Reset form
     setShowForm(false);
-    setFormData({ what: '', when: '', who: '', where: '' });
+    setFormData({ name: '', what: '', when: '', who: '', where: '' });
+    
+    // Play success sound
+    playSound();
   };
 
   const handleInputChange = (field, value) => {
@@ -104,6 +130,10 @@ function Laporkan() {
 
       {/* Field Buttons */}
       <div className="field-buttons">
+        <button className="field-btn field-name">
+          <span className="field-icon">👤</span>
+          <span className="field-text">Nama Pelapor</span>
+        </button>
         <button className="field-btn field-what">
           <span className="field-icon">⏰</span>
           <span className="field-text">Apa yang terjadi?</span>
@@ -127,6 +157,16 @@ function Laporkan() {
           <div className="report-form">
             <h3>Laporkan Kejadian Bullying</h3>
             <form onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label>Nama Pelapor (Opsional)</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  placeholder="Masukkan nama Anda (bisa kosong jika ingin anonim)"
+                />
+              </div>
+
               <div className="form-group">
                 <label>Apa yang terjadi?</label>
                 <textarea

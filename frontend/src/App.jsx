@@ -20,6 +20,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/laporkan" element={<Laporkan />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/app" element={<Layout />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
