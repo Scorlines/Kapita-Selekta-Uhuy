@@ -106,11 +106,11 @@ function Chat() {
     <div className="chat-page">
       {/* Header */}
       <div className="chat-header">
-        <div className="logo-section">
-          <img src={logoImage} alt="Safe School Logo" className="logo-img" />
-          <div className="logo-text">
-            <h1>Sahabat Digital</h1>
-            <p>Anti Bullying</p>
+        <div className="header-left">
+          <img src={logoImage} alt="Safe School Logo" className="header-logo" />
+          <div className="header-brand">
+            <div className="brand-title">Sahabat Digital</div>
+            <div className="brand-subtitle">Anti Bullying</div>
           </div>
         </div>
 
@@ -221,7 +221,7 @@ function Chat() {
 
       {/* Back Button */}
       <button className="back-btn-floating" onClick={handleBackClick}>
-        <FiArrowLeft />
+        <FiArrowLeft className="back-icon" />
         <span>BACK</span>
       </button>
     </div>

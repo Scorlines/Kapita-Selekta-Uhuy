@@ -1,4 +1,4 @@
-﻿.laporkan-page {
+.jenis-bullying-page {
   min-height: 100vh;
   background-image: url("../../assets/background transparan.png");
   background-size: cover;
@@ -14,7 +14,7 @@
   margin: 0;
 }
 
-.laporkan-header {
+.jenis-header {
   position: relative;
   display: flex;
   justify-content: center;
@@ -103,14 +103,13 @@
   }
 }
 
-.content-container {
+.jenis-content {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
   padding: 40px 80px;
   gap: 60px;
-  position: relative;
 }
 
 .bear-section {
@@ -119,6 +118,7 @@
   align-items: center;
   position: relative;
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .speech-bubble {
@@ -174,176 +174,81 @@
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
 }
 
-.center-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  text-align: center;
-  position: relative;
-}
-
-.shield-icon {
-  font-size: 120px;
-  filter: drop-shadow(0 8px 20px rgba(255, 165, 0, 0.4));
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
-  50% {
-    box-shadow: 0 6px 20px rgba(211, 230, 113, 0.6);
-  }
-}
-
-.main-heading {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: #5D4037;
-  text-align: center;
-  margin: 0;
-  text-shadow: 3px 3px 0px rgba(255, 165, 0, 0.3);
-  line-height: 1.2;
-  letter-spacing: 2px;
-}
-
-.lapor-button {
-  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 20px 60px;
-  font-size: 1.8rem;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.lapor-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(255, 107, 53, 0.5);
-}
-
-.lapor-button:active {
-  transform: translateY(0);
-}
-
-.field-buttons {
+.bullying-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  justify-content: center;
-  align-items: stretch;
+  gap: 20px;
   max-width: 600px;
-  margin-top: 20px;
+  width: 100%;
 }
 
-.field-btn {
-  background: linear-gradient(135deg, #D3E671 0%, #B8D25A 100%);
-  border: 3px solid #5D4037;
+.bullying-card {
+  background: #FFB6C1;
+  border: 4px solid #5D4037;
   border-radius: 20px;
-  padding: 18px 25px;
-  min-width: 160px;
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  animation: pulse 2s ease-in-out infinite;
+  min-height: 140px;
 }
 
-.field-btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease;
-}
-
-.field-btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.field-btn:hover {
-  transform: translateY(-5px) scale(1.05);
+.bullying-card:hover {
+  transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: #FF6B35;
-  animation: none;
 }
 
-.field-btn:active {
-  transform: translateY(-2px) scale(1.02);
+.bullying-card:active {
+  transform: translateY(-2px);
 }
 
-.field-icon {
+.card-emoji {
   font-size: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.3s ease;
 }
 
-.field-btn:hover .field-icon {
-  transform: scale(1.2) rotate(5deg);
-}
-
-.field-text {
+.card-text {
   font-size: 1rem;
   font-weight: 700;
   color: #5D4037;
   text-align: center;
   line-height: 1.3;
-  position: relative;
-  z-index: 1;
 }
 
+/* Responsive Design */
 @media (max-width: 1200px) {
-  .content-container {
+  .jenis-content {
     padding: 40px 40px;
     gap: 40px;
   }
-  .main-heading {
-    font-size: 3rem;
+  
+  .bullying-cards {
+    max-width: 500px;
   }
-  .lapor-button {
-    font-size: 1.6rem;
-    padding: 18px 50px;
+}
+
+@media (max-width: 968px) {
+  .jenis-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    gap: 30px;
   }
-  .shield-icon {
-    font-size: 100px;
+  
+  .bullying-cards {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .laporkan-header {
+  .jenis-header {
     padding: 20px;
   }
   
@@ -369,62 +274,40 @@
     right: 20px;
     width: 55px;
   }
-  .content-container {
-    flex-direction: column;
-    padding: 20px;
-    gap: 30px;
-  }
-  .bear-section {
-    order: 1;
-  }
+  
   .speech-bubble {
     max-width: 260px;
     padding: 15px 20px;
   }
+  
   .speech-bubble p {
     font-size: 0.9rem;
   }
+  
   .bear-character {
     width: 150px;
   }
-  .center-content {
-    order: 2;
-  }
-  .shield-icon {
-    font-size: 80px;
-  }
-  .main-heading {
-    font-size: 2rem;
-  }
-  .lapor-button {
-    font-size: 1.3rem;
-    padding: 15px 40px;
-  }
-  .field-buttons {
-    grid-template-columns: 1fr;
-    width: 100%;
-    max-width: 300px;
-    gap: 12px;
-  }
-  .field-btn {
-    width: 100%;
-    min-width: auto;
-    padding: 15px 20px;
-    flex-direction: row;
+  
+  .bullying-cards {
     gap: 15px;
-    justify-content: flex-start;
   }
-  .field-icon {
+  
+  .bullying-card {
+    padding: 20px 15px;
+    min-height: 120px;
+  }
+  
+  .card-emoji {
     font-size: 2rem;
   }
-  .field-text {
+  
+  .card-text {
     font-size: 0.9rem;
-    text-align: left;
   }
 }
 
 @media (max-width: 480px) {
-  .laporkan-header {
+  .jenis-header {
     padding: 15px;
   }
 
@@ -450,23 +333,22 @@
     right: 15px;
     width: 45px;
   }
-  .main-heading {
-    font-size: 1.6rem;
+  
+  .bullying-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-  .lapor-button {
-    font-size: 1.1rem;
-    padding: 12px 30px;
+  
+  .bullying-card {
+    padding: 18px 15px;
+    min-height: 100px;
   }
-  .shield-icon {
-    font-size: 60px;
+  
+  .card-emoji {
+    font-size: 1.8rem;
   }
-  .field-btn {
-    padding: 12px 15px;
-  }
-  .field-icon {
-    font-size: 1.5rem;
-  }
-  .field-text {
+  
+  .card-text {
     font-size: 0.85rem;
   }
 }

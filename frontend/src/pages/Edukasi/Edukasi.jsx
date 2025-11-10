@@ -57,7 +57,7 @@ function Edukasi() {
           <button className="nav-btn" onClick={() => handleMenuClick('/admin')}>Admin</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn nav-btn-active" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/chat')}>Chat</button>
         </nav>
       </header>
 

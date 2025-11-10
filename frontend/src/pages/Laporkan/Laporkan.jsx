@@ -1,21 +1,11 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import './Laporkan.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
-import { reportStorage } from '../../utils/reportStorage';
 
 function Laporkan() {
   const navigate = useNavigate();
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    what: '',
-    when: '',
-    who: '',
-    where: ''
-  });
 
   const playSound = () => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -44,47 +34,18 @@ function Laporkan() {
 };
 
   const handleReportClick = () => {
-    setShowForm(true);
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    
-    // Siapkan data laporan
-    const reportData = {
-      what: formData.what,
-      when: formData.when,
-      who: formData.who,
-      where: formData.where,
-      type: reportStorage.getBullyingType(formData.what) + ' 9/10'
-    };
-
-    // Simpan laporan ke localStorage
-    const savedReport = reportStorage.saveReport(reportData);
-    
-    console.log('Report saved:', savedReport);
-    
-    // Tampilkan pesan sukses dengan informasi lebih detail
-    alert(`Laporan berhasil dikirim! 
-    
-ID Laporan: ${savedReport.id}
-Status: ${savedReport.status}
-    
-Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti laporan ini.`);
-    
-    // Reset form
-    setShowForm(false);
-    setFormData({ name: '', what: '', when: '', who: '', where: '' });
-    
-    // Play success sound
     playSound();
+    setTimeout(() => {
+      navigate('/jenisbullying');
+    }, 200);
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+  const handleFieldClick = (fieldId) => {
+    playSound();
+    sessionStorage.setItem('focusField', fieldId);
+    setTimeout(() => {
+      navigate('/jenisbullying');
+    }, 200);
   };
 
   return (
@@ -106,7 +67,7 @@ Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti lapora
       </div>
 
       {/* Content Section */}
-      <div className="laporkan-content">
+      <div className="content-container">
         {/* Bear and Speech Bubble */}
         <div className="bear-section">
           <div className="speech-bubble">
@@ -119,108 +80,35 @@ Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti lapora
         </div>
 
         {/* Main Content */}
-        <div className="main-content">
+        <div className="center-content">
+          <div className="shield-icon">🛡️</div>
           <h2 className="main-heading">LINGKUNGAN KITA AMAN!</h2>
           
           <button className="lapor-button" onClick={handleReportClick}>
             LAPOR SEKARANG
           </button>
-        </div>
-      </div>
 
-      {/* Field Buttons */}
-      <div className="field-buttons">
-        <button className="field-btn field-name">
-          <span className="field-icon">👤</span>
-          <span className="field-text">Nama Pelapor</span>
-        </button>
-        <button className="field-btn field-what">
-          <span className="field-icon">⏰</span>
-          <span className="field-text">Apa yang terjadi?</span>
-        </button>
-        <button className="field-btn field-when">
-          <span className="field-icon">📅</span>
-          <span className="field-text">Kapan itu terjadi?</span>
-        </button>
-        <button className="field-btn field-who">
-          <span className="field-icon">😊</span>
-          <span className="field-text">Siapa yang terlibat?</span>
-        </button>
-        <button className="field-btn field-where">
-          <span className="field-icon">🔒</span>
-          <span className="field-text">Lokasi Kejadian</span>
-        </button>
-      </div>
-
-      {showForm && (
-        <div className="report-form-overlay">
-          <div className="report-form">
-            <h3>Laporkan Kejadian Bullying</h3>
-            <form onSubmit={handleFormSubmit}>
-              <div className="form-group">
-                <label>Nama Pelapor (Opsional)</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Masukkan nama Anda (bisa kosong jika ingin anonim)"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Apa yang terjadi?</label>
-                <textarea
-                  value={formData.what}
-                  onChange={(e) => handleInputChange('what', e.target.value)}
-                  placeholder="Jelaskan kejadian yang Anda alami..."
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Kapan itu terjadi?</label>
-                <input
-                  type="datetime-local"
-                  value={formData.when}
-                  onChange={(e) => handleInputChange('when', e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Siapa yang terlibat?</label>
-                <input
-                  type="text"
-                  value={formData.who}
-                  onChange={(e) => handleInputChange('who', e.target.value)}
-                  placeholder="Nama pelaku atau korban..."
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Lokasi Kejadian</label>
-                <input
-                  type="text"
-                  value={formData.where}
-                  onChange={(e) => handleInputChange('where', e.target.value)}
-                  placeholder="Tempat kejadian..."
-                  required
-                />
-              </div>
-
-              <div className="form-buttons">
-                <button type="button" onClick={() => setShowForm(false)} className="cancel-btn">
-                  Batal
-                </button>
-                <button type="submit" className="submit-btn">
-                  Kirim Laporan
-                </button>
-              </div>
-            </form>
+          {/* Field Buttons */}
+          <div className="field-buttons">
+            <button className="field-btn field-what" onClick={() => handleFieldClick('what')}>
+              <span className="field-icon">⏰</span>
+              <span className="field-text">Apa yang terjadi?</span>
+            </button>
+            <button className="field-btn field-when" onClick={() => handleFieldClick('when')}>
+              <span className="field-icon">📅</span>
+              <span className="field-text">Kapan itu terjadi?</span>
+            </button>
+            <button className="field-btn field-who" onClick={() => handleFieldClick('who')}>
+              <span className="field-icon">😊</span>
+              <span className="field-text">Siapa yang terlibat?</span>
+            </button>
+            <button className="field-btn field-where" onClick={() => handleFieldClick('where')}>
+              <span className="field-icon">🔒</span>
+              <span className="field-text">Lokasi Kejadian</span>
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
