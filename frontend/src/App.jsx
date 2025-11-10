@@ -8,6 +8,8 @@ import Students from './pages/Students/Students'
 import Edukasi from './pages/Edukasi/Edukasi'
 import Admin from './pages/Admin/Admin'
 import Laporkan from './pages/Laporkan/Laporkan'
+import JenisBullying from './pages/JenisBullying/JenisBullying'
+import LaporanForm from './pages/LaporanForm/LaporanForm'
 import Chat from './pages/Chat/Chat'
 import './App.css'
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/edukasi" element={<Edukasi />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/laporkan" element={<Laporkan />} />
+        <Route path="/jenisbullying" element={<JenisBullying />} />
+        <Route path="/laporkan/form" element={<LaporanForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />

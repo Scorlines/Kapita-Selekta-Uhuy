@@ -94,7 +94,7 @@ function MainMenu() {
         
         <button 
           className="menu-btn menu-chat"
-          onClick={() => handleMenuClick('/login')}
+          onClick={() => handleMenuClick('/chat')}
         >
           Chat
         </button>
