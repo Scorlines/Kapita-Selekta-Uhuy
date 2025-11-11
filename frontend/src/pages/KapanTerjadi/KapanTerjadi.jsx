@@ -4,6 +4,8 @@ import { FiArrowLeft } from 'react-icons/fi';
 import './KapanTerjadi.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
+import { reportStorage } from '../../utils/reportStorage';
+import { createChat, addMessage } from '../../utils/chatStorage';
 
 function KapanTerjadi() {
   const navigate = useNavigate();
@@ -54,12 +56,51 @@ function KapanTerjadi() {
 
     playSound();
     
-    // Simpan data ke sessionStorage
-    sessionStorage.setItem('tanggalKejadian', selectedDate);
-    sessionStorage.setItem('waktuKejadian', selectedTime);
+    // Ambil data dari sessionStorage
+    const bullyingType = sessionStorage.getItem('bullyingType') || 'Tidak disebutkan';
+    const storyDetail = sessionStorage.getItem('storyDetail') || '';
+    
+    // Format tanggal dan waktu
+    const dateObj = new Date(selectedDate);
+    const formattedDate = dateObj.toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    
+    // Buat laporan baru
+    const newReport = reportStorage.saveReport({
+      type: bullyingType,
+      detail: storyDetail,
+      tanggal: formattedDate,
+      waktu: selectedTime,
+      tempat: 'Belum diisi',
+      date: formattedDate,
+      details: {
+        what: storyDetail,
+        when: `${formattedDate} ${selectedTime}`,
+        where: 'Belum diisi',
+        who: 'Anonymous'
+      }
+    });
+    
+    // Buat chat session dengan kode = report ID
+    const chatCode = newReport.id.toString();
+    createChat(chatCode, bullyingType);
+    
+    // Tambahkan pesan pertama dari siswa (detail cerita)
+    if (storyDetail.trim()) {
+      addMessage(chatCode, storyDetail, 'student');
+    }
+    
+    // Bersihkan sessionStorage
+    sessionStorage.removeItem('bullyingType');
+    sessionStorage.removeItem('storyDetail');
+    sessionStorage.removeItem('tanggalKejadian');
+    sessionStorage.removeItem('waktuKejadian');
     
     setTimeout(() => {
-      navigate('/menu'); // Navigate to menu after submit
+      navigate('/menu');
     }, 200);
   };
 

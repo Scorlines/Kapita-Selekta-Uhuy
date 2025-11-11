@@ -8,6 +8,7 @@ import bearImage from '../../assets/sapa.png';
 function Response1() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+  const [storyDetail, setStoryDetail] = useState('');
   const bullyingType = sessionStorage.getItem('bullyingType') || 'Aku diejek teman';
 
   const playSound = () => {
@@ -43,7 +44,16 @@ function Response1() {
   };
 
   const handleKirim = () => {
+    if (!storyDetail.trim()) {
+      alert('Mohon ceritakan kejadiannya terlebih dahulu!');
+      return;
+    }
+    
     playSound();
+    
+    // Simpan detail cerita ke sessionStorage
+    sessionStorage.setItem('storyDetail', storyDetail);
+    
     setTimeout(() => {
       navigate('/kapan-terjadi');
     }, 200);
@@ -95,6 +105,15 @@ function Response1() {
           <div className="story-card">
             <h2>Ceritain ke Nobi apa yang terjadi disini ya...</h2>
             <p className="story-text">{bullyingType}</p>
+            
+            {/* Textarea untuk detail cerita */}
+            <textarea 
+              className="story-textarea"
+              placeholder="Tulis detail kejadian yang kamu alami..."
+              value={storyDetail}
+              onChange={(e) => setStoryDetail(e.target.value)}
+              rows={5}
+            />
             
             {/* Action Button */}
             {currentPage < 3 ? (
