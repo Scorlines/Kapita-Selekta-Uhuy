@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import './Chat.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
+import { getChatByCode, createChat, addMessage, markAsRead } from '../../utils/chatStorage';
 
 function Chat() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Chat() {
   const [message, setMessage] = useState('');
   const [counselorInfo, setCounselorInfo] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const playSound = () => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -38,27 +40,50 @@ function Chat() {
     }, 200);
   };
 
+  // Auto scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
+
   const handleVerifyCode = () => {
     if (secretCode.trim() !== '') {
       playSound();
       
+      const code = secretCode.toUpperCase();
+      
+      // Check if chat exists or create new one
+      let chat = getChatByCode(code);
+      if (!chat) {
+        chat = createChat(code, 'Umum');
+      }
+      
       // Set counselor info setelah verifikasi
       setCounselorInfo({
-        code: secretCode.toUpperCase(),
-        status: 'Baru',
-        category: 'diejek'
+        code: code,
+        status: chat.status,
+        category: chat.category
       });
       
       setIsVerified(true);
       
-      // Tambahkan pesan welcome dari konselor
-      const welcomeMessage = {
-        id: 1,
-        sender: 'counselor',
-        text: 'siap',
-        time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
-      };
-      setChatMessages([welcomeMessage]);
+      // Load existing messages
+      if (chat.messages && chat.messages.length > 0) {
+        setChatMessages(chat.messages);
+      } else {
+        // Tambahkan pesan welcome dari konselor jika chat baru
+        const welcomeMessage = {
+          id: Date.now().toString(),
+          sender: 'admin',
+          text: 'Halo, saya admin yang siap membantu Anda. Silakan ceritakan masalah Anda.',
+          time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+          timestamp: new Date().toISOString()
+        };
+        addMessage(code, welcomeMessage.text, 'admin');
+        setChatMessages([welcomeMessage]);
+      }
+      
+      // Mark messages as read by student
+      markAsRead(code, 'student');
     } else {
       alert('Mohon masukkan kode rahasia terlebih dahulu');
     }
@@ -70,25 +95,18 @@ function Chat() {
     playSound();
 
     const newMessage = {
-      id: chatMessages.length + 1,
-      sender: 'user',
+      id: Date.now().toString(),
+      sender: 'student',
       text: message,
-      time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      timestamp: new Date().toISOString()
     };
 
+    // Save to storage
+    addMessage(counselorInfo.code, message, 'student');
+    
     setChatMessages([...chatMessages, newMessage]);
     setMessage('');
-
-    // Simulasi balasan konselor setelah delay
-    setTimeout(() => {
-      const replyMessage = {
-        id: chatMessages.length + 2,
-        sender: 'counselor',
-        text: 'Terima kasih sudah berbagi. Saya mengerti perasaan Anda. Bisakah Anda ceritakan lebih detail?',
-        time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
-      };
-      setChatMessages(prev => [...prev, replyMessage]);
-    }, 1500);
   };
 
   const handleKeyPress = (e) => {
@@ -178,14 +196,16 @@ function Chat() {
               {chatMessages.map((msg) => (
                 <div 
                   key={msg.id} 
-                  className={`message-bubble ${msg.sender === 'user' ? 'user-message' : 'counselor-message'}`}
+                  className={`message-bubble ${msg.sender === 'student' ? 'user-message' : 'counselor-message'}`}
                 >
                   <div className="message-label">
-                    {msg.sender === 'user' ? 'Kamu: ' : 'Konselor: '}
+                    {msg.sender === 'student' ? 'Kamu: ' : 'Admin: '}
                     <span className="message-text">{msg.text}</span>
                   </div>
+                  <div className="message-time">{msg.time}</div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
           </div>
 

@@ -37,15 +37,15 @@ function Response3() {
 
   const handleNext = () => {
     playSound();
-    if (currentPage < 3) {
-      setCurrentPage(currentPage + 1);
-    }
+    setTimeout(() => {
+      navigate('/kapan-terjadi');
+    }, 200);
   };
 
   const handleKirim = () => {
     playSound();
     setTimeout(() => {
-      navigate('/menu');
+      navigate('/kapan-terjadi');
     }, 200);
   };
 

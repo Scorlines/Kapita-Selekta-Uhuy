@@ -19,8 +19,18 @@ function Dashboard() {
 
   // Load data saat komponen dimount
   useEffect(() => {
-    // Inisialisasi data dummy jika belum ada data
-    initializeDummyData()
+    // Clear localStorage jika masih ada data dummy lama
+    const reports = reportStorage.getAllReports();
+    const hasDummyData = reports.some(report => 
+      report.name === 'Ahmad Rizki' || 
+      report.name === 'Siti Nurhaliza' ||
+      (report.what && report.what.includes('dipukul oleh teman sekelas'))
+    );
+    
+    if (hasDummyData) {
+      localStorage.removeItem('bullying_reports');
+    }
+    
     loadDashboardData()
     
     // Refresh data setiap 5 detik untuk update real-time
@@ -28,40 +38,6 @@ function Dashboard() {
     
     return () => clearInterval(interval)
   }, [])
-
-  const initializeDummyData = () => {
-    const existingReports = reportStorage.getAllReports()
-    if (existingReports.length === 0) {
-      // Tambahkan beberapa data dummy
-      const dummyReports = [
-        {
-          name: 'Ahmad Rizki',
-          what: 'Saya dipukul oleh teman sekelas di koridor sekolah',
-          when: '2025-11-08T14:30:00',
-          who: 'Siswa kelas 8B',
-          where: 'Koridor lantai 2'
-        },
-        {
-          name: '', // Anonim
-          what: 'Diejek dan dihina karena penampilan fisik',
-          when: '2025-11-08T10:15:00',
-          who: 'Beberapa siswa kelas 9A',
-          where: 'Kantin sekolah'
-        },
-        {
-          name: 'Siti Nurhaliza',
-          what: 'Diancam dan diminta uang jajan',
-          when: '2025-11-07T16:45:00',
-          who: 'Siswa senior',
-          where: 'Toilet sekolah'
-        }
-      ]
-      
-      dummyReports.forEach(report => {
-        reportStorage.saveReport(report)
-      })
-    }
-  }
 
   const loadDashboardData = () => {
     // Load statistik
@@ -187,7 +163,7 @@ function Dashboard() {
           <button className="nav-btn nav-btn-active" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/chat-management')}>Chat</button>
         </nav>
       </header>
 
