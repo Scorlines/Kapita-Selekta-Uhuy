@@ -1,0 +1,245 @@
+.landing-page {
+  min-height: 100vh;
+  background-image: url('../../assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Landing Header */
+.landing-header {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.landing-title {
+  background: linear-gradient(90deg, #FF8C42 0%, #FF8C42 75%, #FF8C42 75%, #FF8C42 100%);
+  color: white;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* Corner Logo - Top Right */
+.corner-logo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  animation: floatLogo 3s ease-in-out infinite;
+}
+
+.corner-logo img {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes floatLogo {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Main Bear Character */
+.main-bear {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8%;
+  z-index: 40;
+  animation: fadeInUp 1.2s ease-out;
+}
+
+.bear-character {
+  width: 350px !important;
+  height: auto;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.main-bear:hover .bear-character {
+  transform: scale(1.05);
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Start Button - Positioned on the bear's sign */
+.start-button {
+  position: absolute;
+  bottom: 45px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 15px 45px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #FF6B35;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 45;
+}
+
+.start-button:hover {
+  transform: scale(1.1) rotate(-2deg);
+  color: #FF8C42;
+}
+
+.start-button:active {
+  transform: scale(0.95);
+}
+
+.start-text {
+  display: inline-block;
+  letter-spacing: 2px;
+}
+
+/* Bounce Animation */
+.main-bear.bounce {
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  75% {
+    transform: translateY(-15px);
+  }
+}
+
+.start-button.clicked {
+  animation: buttonPulse 0.6s ease;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .bear-character {
+    width: 300px !important;
+  }
+
+  .start-button {
+    bottom: 23px;
+    font-size: 1.6rem;
+    padding: 12px 40px;
+  }
+
+  .corner-logo img {
+    width: 100px;
+  }
+
+  .landing-title {
+    font-size: 1.8rem;
+    padding: 12px 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-title {
+    font-size: 1.5rem;
+    padding: 10px 30px;
+  }
+
+  .landing-header {
+    top: 15px;
+  }
+
+  .bear-character {
+    width: 260px !important;
+  }
+
+  .start-button {
+    bottom: 20px;
+    font-size: 1.4rem;
+    padding: 10px 35px;
+  }
+
+  .corner-logo img {
+    width: 80px;
+  }
+
+  .corner-logo {
+    top: 15px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-page {
+    padding: 1rem;
+  }
+
+  .landing-title {
+    font-size: 1.2rem;
+    padding: 8px 20px;
+  }
+
+  .landing-header {
+    top: 10px;
+  }
+
+  .bear-character {
+    width: 220px !important;
+  }
+
+  .start-button {
+    bottom: 18px;
+    font-size: 1.2rem;
+    padding: 8px 30px;
+  }
+
+  .corner-logo img {
+    width: 70px;
+  }
+
+  .main-bear {
+    margin-top: 10%;
+  }
+}
