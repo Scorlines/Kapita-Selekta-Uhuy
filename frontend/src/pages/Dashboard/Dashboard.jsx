@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './Dashboard.css'
 import logoImage from '../../assets/logo pojok kanan .png'
 import { reportStorage } from '../../utils/reportStorage'
-import { getAllChats, getChatByCode, addMessage } from '../../utils/chatStorage'
+import { getAllChats, getChatByCode, addMessage, createChat } from '../../utils/chatStorage'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
 
 const PIE_COLORS = ['#6FCF97', '#56CCF2', '#F2C94C', '#EB5757', '#BB6BD9', '#2F80ED']
@@ -186,14 +186,27 @@ export default function Dashboard() {
     
     const chatCode = selectedReportId.toString()
     
-    // Simpan pesan ke chatStorage
-    addMessage(chatCode, chatInput.trim(), 'admin')
+    // Pastikan chat session sudah ada, jika belum buat dulu
+    let chatData = getChatByCode(chatCode)
+    if (!chatData) {
+      const report = reports.find(r => r.id === selectedReportId)
+      chatData = createChat(chatCode, report?.type || 'Umum')
+    }
     
-    // Update tampilan lokal
-    setChats(prev => ({
-      ...prev,
-      [selectedReportId]: [...(prev[selectedReportId] || []), { from: 'admin', text: chatInput.trim() }]
-    }))
+    // Simpan pesan ke chatStorage
+    const success = addMessage(chatCode, chatInput.trim(), 'admin')
+    
+    if (success) {
+      // Update tampilan lokal - muat ulang dari storage untuk konsistensi
+      const updatedChatData = getChatByCode(chatCode)
+      if (updatedChatData && updatedChatData.messages) {
+        const formattedMessages = updatedChatData.messages.map(msg => ({
+          from: msg.sender === 'student' ? 'pelapor' : msg.sender,
+          text: msg.text
+        }))
+        setChats(prev => ({ ...prev, [selectedReportId]: formattedMessages }))
+      }
+    }
     
     setChatInput('')
   }

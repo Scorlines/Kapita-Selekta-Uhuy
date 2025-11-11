@@ -248,6 +248,109 @@
   border-radius: 5px;
 }
 
+/* Location Section */
+.location-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.speech-bubble-small {
+  background: white;
+  border: 3px solid #5D4037;
+  border-radius: 20px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.speech-bubble-small p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #5D4037;
+  font-weight: 600;
+  text-align: center;
+}
+
+.location-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.location-btn {
+  background: linear-gradient(135deg, #FFE5B4 0%, #FFD699 100%);
+  border: 4px solid #5D4037;
+  border-radius: 20px;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.location-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #FFD699 0%, #FFC875 100%);
+}
+
+.location-btn.active {
+  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+  border-color: #8B4513;
+  transform: scale(1.05);
+}
+
+.location-btn.active .location-label {
+  color: white;
+}
+
+.location-icon {
+  font-size: 2.5rem;
+}
+
+.location-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #5D4037;
+  text-align: center;
+}
+
+.custom-location-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-location-input {
+  width: 100%;
+  padding: 15px 20px;
+  border: 3px solid #5D4037;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  background: white;
+  color: #5D4037;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.custom-location-input:focus {
+  outline: none;
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+.custom-location-input::placeholder {
+  color: #9E8B7F;
+  font-weight: 500;
+}
+
 .submit-button {
   background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
   color: white;
@@ -396,6 +499,18 @@
   
   .card-header h3 {
     font-size: 1rem;
+  }
+  
+  .location-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .location-icon {
+    font-size: 2rem;
+  }
+  
+  .location-label {
+    font-size: 0.9rem;
   }
   
   .submit-button {
