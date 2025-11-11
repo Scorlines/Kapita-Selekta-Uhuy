@@ -247,3 +247,20 @@
   background: #F5F5DC !important;
   color: #F58E03 !important;
 }
+
+/* Filter bar di atas daftar antrian */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.status-filter {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #E0E0E0;
+  background: #FFFBEA;
+  font-weight: 600;
+  color: #6B5544;
+}
