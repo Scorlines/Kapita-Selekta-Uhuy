@@ -10,6 +10,7 @@ export const reportStorage = {
       status: 'Baru',
       urgency: 'Sedang',
       student: reportData.name && reportData.name.trim() ? reportData.name.trim() : 'Anonymous'
+       ,response: '' // field baru untuk balasan admin
     };
     
     reports.push(newReport);
@@ -29,6 +30,18 @@ export const reportStorage = {
     const updatedReports = reports.map(report => 
       report.id === reportId 
         ? { ...report, status: newStatus }
+        : report
+    );
+    localStorage.setItem('bullyingReports', JSON.stringify(updatedReports));
+    return updatedReports;
+  },
+
+  // Mengupdate respon admin
+  updateReportResponse: (reportId, responseText) => {
+    const reports = reportStorage.getAllReports();
+    const updatedReports = reports.map(report => 
+      report.id === reportId 
+        ? { ...report, response: responseText }
         : report
     );
     localStorage.setItem('bullyingReports', JSON.stringify(updatedReports));
