@@ -37,15 +37,27 @@ function JenisBullying() {
     playSound();
     // Simpan jenis bullying yang dipilih
     sessionStorage.setItem('bullyingType', type);
-    // Navigate ke form laporan
+    // Navigate berdasarkan jenis bullying
     setTimeout(() => {
-      navigate('/laporkan/form');
+      if (type === 'Aku diejek teman') {
+        navigate('/response1');
+      } else if (type === 'Aku didorong / disakiti') {
+        navigate('/response2');
+      } else if (type === 'Aku dipanggil dengan kata yang bikin sedih') {
+        navigate('/response3');
+      } else if (type === 'Aku gak diajak main / belajar bareng') {
+        navigate('/response4');
+      } else if (type === 'Aku dibully lewat HP / chat') {
+        navigate('/response5');
+      } else {
+        navigate('/laporkan/form');
+      }
     }, 200);
   };
 
   const bullyingTypes = [
-    { id: 1, text: 'Aku dijauhi teman', emoji: '😢', color: '#FFB6C1' },
-    { id: 2, text: 'Aku +didorong / disakiti', emoji: '⚠️', color: '#FFE17B' },
+    { id: 1, text: 'Aku diejek teman', emoji: '😢', color: '#FFB6C1' },
+    { id: 2, text: 'Aku didorong / disakiti', emoji: '⚠️', color: '#FFE17B' },
     { id: 3, text: 'Aku dipanggil dengan kata yang bikin sedih', emoji: '😞', color: '#87CEEB' },
     { id: 4, text: 'Aku gak diajak main / belajar bareng', emoji: '💔', color: '#DDA0DD' },
     { id: 5, text: 'Aku dibully lewat HP / chat', emoji: '📱', color: '#FFD700' },
