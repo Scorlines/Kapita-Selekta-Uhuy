@@ -11,6 +11,7 @@ import Laporkan from './pages/Laporkan/Laporkan'
 import JenisBullying from './pages/JenisBullying/JenisBullying'
 import LaporanForm from './pages/LaporanForm/LaporanForm'
 import Chat from './pages/Chat/Chat'
+import ChatManagement from './pages/ChatManagement/ChatManagement'
 import Response1 from './pages/Response1/Response1'
 import Response2 from './pages/Response2/Response2'
 import Response3 from './pages/Response3/Response3'
@@ -39,6 +40,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat-management" element={<ChatManagement />} />
         <Route path="/app" element={<Layout />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />

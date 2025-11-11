@@ -1,16 +1,18 @@
 // Utility untuk mengelola penyimpanan laporan
+import { deleteChat } from './chatStorage';
+
 export const reportStorage = {
   // Menyimpan laporan baru
   saveReport: (reportData) => {
     const reports = reportStorage.getAllReports();
+    const reportId = Date.now();
     const newReport = {
-      id: Date.now(),
+      id: reportId,
       ...reportData,
       timestamp: new Date().toISOString(),
       status: 'Baru',
       urgency: 'Sedang',
       student: reportData.name && reportData.name.trim() ? reportData.name.trim() : 'Anonymous'
-       ,response: '' // field baru untuk balasan admin
     };
     
     reports.push(newReport);
@@ -36,23 +38,16 @@ export const reportStorage = {
     return updatedReports;
   },
 
-  // Mengupdate respon admin
-  updateReportResponse: (reportId, responseText) => {
-    const reports = reportStorage.getAllReports();
-    const updatedReports = reports.map(report => 
-      report.id === reportId 
-        ? { ...report, response: responseText }
-        : report
-    );
-    localStorage.setItem('bullyingReports', JSON.stringify(updatedReports));
-    return updatedReports;
-  },
-
   // Menghapus laporan
   deleteReport: (reportId) => {
     const reports = reportStorage.getAllReports();
     const filteredReports = reports.filter(report => report.id !== reportId);
     localStorage.setItem('bullyingReports', JSON.stringify(filteredReports));
+    
+    // Hapus chat terkait dengan kode laporan (menggunakan ID sebagai kode)
+    const chatCode = reportId.toString();
+    deleteChat(chatCode);
+    
     return filteredReports;
   },
 
