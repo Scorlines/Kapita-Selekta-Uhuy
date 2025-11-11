@@ -5,6 +5,7 @@ import './LaporanForm.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
 import { reportStorage } from '../../utils/reportStorage';
+import SuccessModal from '../../components/SuccessModal/SuccessModal';
 
 function LaporanForm() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ function LaporanForm() {
     where: ''
   });
   const [activeField, setActiveField] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reportData, setReportData] = useState(null);
 
   const bullyingType = sessionStorage.getItem('bullyingType') || 'Tidak disebutkan';
 
@@ -62,7 +65,7 @@ function LaporanForm() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     
-    const reportData = {
+    const newReportData = {
       what: formData.what,
       when: formData.when,
       who: formData.who,
@@ -70,20 +73,21 @@ function LaporanForm() {
       type: bullyingType
     };
 
-    const savedReport = reportStorage.saveReport(reportData);
+    const savedReport = reportStorage.saveReport(newReportData);
     
     playSound();
     
-    alert(`Laporan berhasil dikirim! 
-    
-ID Laporan: ${savedReport.id}
-Jenis: ${bullyingType}
-Status: ${savedReport.status}
-    
-Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti laporan ini.`);
-    
+    // Show modal with report data
+    setReportData(savedReport);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
     sessionStorage.removeItem('bullyingType');
-    navigate('/menu');
+    setTimeout(() => {
+      navigate('/menu');
+    }, 300);
   };
 
   const handleInputChange = (field, value) => {
@@ -229,6 +233,13 @@ Terima kasih atas partisipasi Anda. Tim admin akan segera menindaklanjuti lapora
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <SuccessModal 
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        reportData={reportData}
+      />
     </div>
   );
 }
