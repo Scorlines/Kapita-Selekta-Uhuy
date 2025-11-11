@@ -4,16 +4,20 @@ import { FiArrowLeft } from 'react-icons/fi';
 import './KapanTerjadi.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
-import { reportStorage } from '../../utils/reportStorage';
-import { createChat, addMessage } from '../../utils/chatStorage';
 
 function KapanTerjadi() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [customLocation, setCustomLocation] = useState('');
   const bullyingType = sessionStorage.getItem('bullyingType') || '';
 
-  console.log('KapanTerjadi page loaded'); // Debug log
+  const locations = [
+    { icon: '🏫', label: 'Di Kelas' },
+    { icon: '⚽', label: 'Di Lapangan' },
+    { icon: '🍽️', label: 'Di Kantin' },
+    { icon: '📱', label: 'Di HP / Chat' }
+  ];
 
   const playSound = () => {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -44,63 +48,38 @@ function KapanTerjadi() {
     setSelectedDate(e.target.value);
   };
 
-  const handleTimeChange = (e) => {
-    setSelectedTime(e.target.value);
+  const handleLocationClick = (location) => {
+    setSelectedLocation(location);
+    setCustomLocation('');
+    playSound();
+  };
+
+  const handleCustomLocationChange = (e) => {
+    setCustomLocation(e.target.value);
+    setSelectedLocation('');
   };
 
   const handleSubmit = () => {
-    if (!selectedDate || !selectedTime) {
-      alert('Mohon pilih tanggal dan waktu kejadian!');
+    const finalLocation = customLocation.trim() || selectedLocation;
+    
+    if (!selectedDate) {
+      alert('Mohon pilih tanggal kejadian!');
+      return;
+    }
+    
+    if (!finalLocation) {
+      alert('Mohon pilih lokasi kejadian!');
       return;
     }
 
     playSound();
     
-    // Ambil data dari sessionStorage
-    const bullyingType = sessionStorage.getItem('bullyingType') || 'Tidak disebutkan';
-    const storyDetail = sessionStorage.getItem('storyDetail') || '';
-    
-    // Format tanggal dan waktu
-    const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj.toLocaleDateString('id-ID', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    
-    // Buat laporan baru
-    const newReport = reportStorage.saveReport({
-      type: bullyingType,
-      detail: storyDetail,
-      tanggal: formattedDate,
-      waktu: selectedTime,
-      tempat: 'Belum diisi',
-      date: formattedDate,
-      details: {
-        what: storyDetail,
-        when: `${formattedDate} ${selectedTime}`,
-        where: 'Belum diisi',
-        who: 'Anonymous'
-      }
-    });
-    
-    // Buat chat session dengan kode = report ID
-    const chatCode = newReport.id.toString();
-    createChat(chatCode, bullyingType);
-    
-    // Tambahkan pesan pertama dari siswa (detail cerita)
-    if (storyDetail.trim()) {
-      addMessage(chatCode, storyDetail, 'student');
-    }
-    
-    // Bersihkan sessionStorage
-    sessionStorage.removeItem('bullyingType');
-    sessionStorage.removeItem('storyDetail');
-    sessionStorage.removeItem('tanggalKejadian');
-    sessionStorage.removeItem('waktuKejadian');
+    // Simpan tanggal dan lokasi ke sessionStorage
+    sessionStorage.setItem('tanggalKejadian', selectedDate);
+    sessionStorage.setItem('lokasiKejadian', finalLocation);
     
     setTimeout(() => {
-      navigate('/menu');
+      navigate('/siapa-disana');
     }, 200);
   };
 
@@ -149,18 +128,37 @@ function KapanTerjadi() {
             />
           </div>
 
-          {/* Waktu Kejadian Card */}
-          <div className="datetime-card">
-            <div className="card-header">
-              <h3>Waktu Kejadian</h3>
+          {/* Lokasi Kejadian Section */}
+          <div className="location-section">
+            <div className="speech-bubble-small">
+              <p>Ketuk dimana kejadiannya! Nobi akan tandai tempatnya!</p>
             </div>
-            <input 
-              type="time" 
-              value={selectedTime}
-              onChange={handleTimeChange}
-              className="time-input"
-              placeholder="Pilih waktu terjadinya"
-            />
+            
+            <div className="location-buttons">
+              {locations.map((loc, index) => (
+                <button
+                  key={index}
+                  className={`location-btn ${selectedLocation === loc.label ? 'active' : ''}`}
+                  onClick={() => handleLocationClick(loc.label)}
+                >
+                  <span className="location-icon">{loc.icon}</span>
+                  <span className="location-label">{loc.label}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="custom-location-section">
+              <div className="speech-bubble-small">
+                <p>isi disini jika ada tempat lain ya...</p>
+              </div>
+              <input 
+                type="text" 
+                value={customLocation}
+                onChange={handleCustomLocationChange}
+                className="custom-location-input"
+                placeholder="Tulis lokasi lainnya..."
+              />
+            </div>
           </div>
 
           {/* Submit Button */}

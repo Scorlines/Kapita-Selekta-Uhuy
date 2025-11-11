@@ -1,5 +1,5 @@
 // Utility untuk mengelola penyimpanan laporan
-import { deleteChat } from './chatStorage';
+import { deleteChat, createChat } from './chatStorage';
 
 export const reportStorage = {
   // Menyimpan laporan baru
@@ -17,6 +17,11 @@ export const reportStorage = {
     
     reports.push(newReport);
     localStorage.setItem('bullyingReports', JSON.stringify(reports));
+    
+    // Buat chat session otomatis dengan report ID sebagai code
+    const chatCode = reportId.toString();
+    createChat(chatCode, reportData.type || 'Umum');
+    
     return newReport;
   },
 
