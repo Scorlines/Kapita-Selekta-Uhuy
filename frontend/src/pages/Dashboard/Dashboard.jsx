@@ -10,62 +10,50 @@ const PIE_COLORS = ['#6FCF97', '#56CCF2', '#F2C94C', '#EB5757', '#BB6BD9', '#2F8
 export default function Dashboard() {
   const navigate = useNavigate()
 
-  // ringkasan: mulai dari nol
+  // ringkasan
   const [stats, setStats] = useState({ total: 0, thirtyDays: 0, completed: 0, new: 0 })
-
-  // antrian/daftar
+  // antrian dan filter
   const [reports, setReports] = useState([])
-  const [expandedReport, setExpandedReport] = useState(null)   // untuk expand kartu
-  const [selectedReportId, setSelectedReportId] = useState(null) // untuk chat
-
+  const [expandedReport, setExpandedReport] = useState(null)
+  const [selectedReportId, setSelectedReportId] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('')
   // notifikasi
   const [lastReportCount, setLastReportCount] = useState(0)
   const [showNotification, setShowNotification] = useState(false)
-
   // analitik
   const [analytics, setAnalytics] = useState({ byLocation: [], byCategory: [] })
-
   // chat admin
-  const [chats, setChats] = useState({})     // { [reportId]: [{from:'admin'|'pelapor'|'system', text}] }
+  const [chats, setChats] = useState({})
   const [chatInput, setChatInput] = useState('')
   const [statusInput, setStatusInput] = useState('')
 
   useEffect(() => {
-    initializeDummyData()
     loadDashboardData()
     const interval = setInterval(loadDashboardData, 5000)
     return () => clearInterval(interval)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const initializeDummyData = () => {
-    // 🚫 Jangan isi dummy supaya Ringkasan awal = 0
-    // Biarkan kosong sampai user beneran kirim laporan.
-    // Jika kamu tetap butuh seed lokal, boleh aktifkan block di bawah.
-    /*
-    const existingReports = reportStorage.getAllReports()
-    if (existingReports.length === 0) {
-      const dummyReports = [ ... ]
-      dummyReports.forEach(report => reportStorage.saveReport(report))
-    }
-    */
-  }
 
   const loadDashboardData = () => {
     const all = reportStorage.getAllReports()
     const hasReports = all.length > 0
 
-    const newStats = reportStorage.getStats()
-    // kalau belum ada laporan, paksa 0 semua
-    setStats(hasReports ? newStats : { total: 0, thirtyDays: 0, completed: 0, new: 0 })
+    // hitung ringkasan
+    const total = all.length
+    const completed = all.filter(r => r.status === 'Selesai').length
+    const newReports = all.filter(r => r.status === 'Baru').length
+    const thirtyDays = all.filter(r => {
+      const diff = (Date.now() - new Date(r.timestamp)) / (1000 * 60 * 60 * 24)
+      return diff <= 30
+    }).length
+    setStats(hasReports ? { total, thirtyDays, completed, new: newReports } : { total: 0, thirtyDays: 0, completed: 0, new: 0 })
 
-    // notifikasi
-    if (lastReportCount > 0 && newStats.total > lastReportCount) {
+    // notifikasi laporan baru
+    if (lastReportCount > 0 && total > lastReportCount) {
       setShowNotification(true)
       playNotificationSound()
       setTimeout(() => setShowNotification(false), 5000)
     }
-    setLastReportCount(newStats.total)
+    setLastReportCount(total)
 
     // analitik
     const locMap = new Map()
@@ -81,27 +69,29 @@ export default function Dashboard() {
       byCategory: Array.from(catMap, ([name, value]) => ({ name, value }))
     })
 
-    // daftar terbaru (maks 5)
-    const recent = all
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-      .slice(0, 5)
-      .map(r => ({
-        id: r.id,
-        date: reportStorage.formatDate(r.timestamp),
-        type: r.type || 'Laporan',
-        student: r.student || '',
-        reporterName: r.name || 'Anonim',
-        status: r.status || 'Baru',
-        urgency: r.urgency || 'Sedang',
-        details: {
-          name: r.name || 'Anonim',
-          what: r.what,
-          when: r.when,
-          who: r.who,
-          where: r.where
-        }
-      }))
-    setReports(recent)
+    // urutkan laporan: Baru → Diproses → Selesai
+    const sorted = [...all].sort((a, b) => {
+      const order = { 'Baru': 1, 'Diproses': 2, 'Selesai': 3 }
+      return order[a.status] - order[b.status]
+    })
+
+    const mapped = sorted.map(r => ({
+      id: r.id,
+      date: reportStorage.formatDate(r.timestamp),
+      type: r.type || 'Laporan',
+      student: r.student || '',
+      reporterName: r.name || 'Anonim',
+      status: r.status || 'Baru',
+      urgency: r.urgency || 'Sedang',
+      details: {
+        name: r.name || 'Anonim',
+        what: r.what,
+        when: r.when,
+        who: r.who,
+        where: r.where
+      }
+    }))
+    setReports(mapped)
   }
 
   const playNotificationSound = () => {
@@ -142,11 +132,9 @@ export default function Dashboard() {
     const next = expandedReport === id ? null : id
     setExpandedReport(next)
     setSelectedReportId(next)
-    // init chat system message jika belum ada
     if (next && !chats[next]) {
       setChats(prev => ({ ...prev, [next]: [{ from: 'system', text: 'Belum ada pesan. Kirim sapaan pertama kepada pelapor.' }] }))
     }
-    // set default statusInput sesuai status aktif
     const sel = reports.find(r => r.id === id)
     if (sel) setStatusInput(sel.status)
   }
@@ -156,24 +144,6 @@ export default function Dashboard() {
     setStatusInput(newStatus)
     loadDashboardData()
     playSound()
-  }
-
-  const handleDeleteReport = (reportId) => {
-    if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) {
-      reportStorage.deleteReport(reportId)
-      // bersihkan chatnya juga kalau ada
-      setChats(prev => {
-        const cp = { ...prev }
-        delete cp[reportId]
-        return cp
-      })
-      if (selectedReportId === reportId) {
-        setSelectedReportId(null)
-        setExpandedReport(null)
-      }
-      loadDashboardData()
-      playSound()
-    }
   }
 
   const sendChat = () => {
@@ -200,18 +170,11 @@ export default function Dashboard() {
           </div>
         </div>
         <nav className="header-nav">
-          <button
-            className="nav-btn nav-btn--admin"   // ⬅️ tambahkan ini, hapus nav-btn-active
-            onClick={() => handleMenuClick('/dashboard')}
-          >
-            Admin
-          </button>
+          <button className="nav-btn nav-btn--admin" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
         </nav>
-
-
       </header>
 
       {/* Notification */}
@@ -228,103 +191,91 @@ export default function Dashboard() {
       <div className="dashboard-content">
         <h1 className="dashboard-title">Dashboard Analytics</h1>
 
-        {/* Ringkasan (awal 0) */}
+        {/* Ringkasan */}
         <div className="summary-section">
           <h2 className="section-title">Ringkasan</h2>
           <div className="stats-grid">
-            <div className="stat-card"><div className="stat-label">Total</div><div className="stat-value">{stats.total || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">30 Hari</div><div className="stat-value">{stats.thirtyDays || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">Selesai</div><div className="stat-value">{stats.completed || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">Baru</div><div className="stat-value">{stats.new || 0}</div></div>
+            <div className="stat-card"><div className="stat-label">Total</div><div className="stat-value">{stats.total}</div></div>
+            <div className="stat-card"><div className="stat-label">30 Hari</div><div className="stat-value">{stats.thirtyDays}</div></div>
+            <div className="stat-card"><div className="stat-label">Selesai</div><div className="stat-value">{stats.completed}</div></div>
+            <div className="stat-card"><div className="stat-label">Baru</div><div className="stat-value">{stats.new}</div></div>
           </div>
         </div>
 
         {/* Antrian */}
         <section className="queue-section">
           <h2 className="section-title">Antrian</h2>
+
+          {/* Filter */}
+          <div className="filter-bar">
+            <label>Filter status: </label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="status-filter"
+            >
+              <option value="">Semua</option>
+              <option value="Baru">Baru</option>
+              <option value="Diproses">Diproses</option>
+              <option value="Selesai">Selesai</option>
+            </select>
+          </div>
+
           <div className="queue-frame">
-            {reports.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className={`queue-item ${selectedReportId === r.id ? 'active' : ''}`}
-                onClick={() => onSelectReport(r.id)}
-              >
-                <div className="qi-line-1">
-                  <span className="qi-type">{r.details.what?.slice(0, 22) || r.type}</span>
-                  <span className="qi-date">{r.date}</span>
-                </div>
-                <div className="qi-line-2">{r.details.who || r.student}</div>
-                <div className="qi-line-3">
-                  <span className="qi-status" style={{ backgroundColor: getStatusColor(r.status) }}>
-                    Status: {r.status}
-                  </span>
-                  <span className="qi-urgency">Urgensi: {r.urgency}</span>
-                </div>
-              </button>
-            ))}
+            {reports
+              .filter(r => !statusFilter || r.status === statusFilter)
+              .map((r) => (
+                <button
+                  key={r.id}
+                  type="button"
+                  className={`queue-item ${selectedReportId === r.id ? 'active' : ''}`}
+                  onClick={() => onSelectReport(r.id)}
+                >
+                  <div className="qi-line-1">
+                    <span className="qi-type">{r.details.what?.slice(0, 22) || r.type}</span>
+                    <span className="qi-date">{r.date}</span>
+                  </div>
+                  <div className="qi-line-2">{r.details.who || r.student}</div>
+                  <div className="qi-line-3">
+                    <span className="qi-status" style={{ backgroundColor: getStatusColor(r.status) }}>
+                      Status: {r.status}
+                    </span>
+                    <span className="qi-urgency">Urgensi: {r.urgency}</span>
+                  </div>
+                </button>
+              ))}
           </div>
         </section>
 
         {/* Chat Admin */}
         <section className="chat-admin">
           <h2 className="section-title chat-title">Chat Admin</h2>
-
-          {/* Meta header */}
           <div className="chat-meta">
             <div>Kategori: <b>{selectedReport?.type || '-'}</b></div>
             <div>Lokasi: <b>{selectedReport?.details.where || '-'}</b></div>
             <div>Waktu: <b>{selectedReport?.date || '-'}</b></div>
           </div>
-
-          {/* Room */}
           <div className="chat-card">
-            {!selectedReport && (
+            {!selectedReport ? (
               <>
-                <div className="chat-banner">Belum ada pesan. Kirim sapaan pertama kepada pelapor</div>
-                <div className="chat-actions disabled">
-                  <input className="chat-input" placeholder="Ketik balasan..." disabled />
-                  <button className="btn-kirim" disabled>Kirim</button>
-                  <select className="status-input" disabled>
-                    <option>Status...</option>
-                  </select>
-                  <button className="btn-status" disabled>Update Status</button>
-                </div>
+                <div className="chat-banner">Belum ada pesan. Pilih laporan untuk mulai chat.</div>
               </>
-            )}
-
-            {selectedReport && (
+            ) : (
               <>
                 <div className="chat-window">
                   {(chats[selectedReportId] || []).map((m, i) => (
-                    <div key={i} className={`bubble ${m.from}`}>
-                      {m.text}
-                    </div>
+                    <div key={i} className={`bubble ${m.from}`}>{m.text}</div>
                   ))}
                 </div>
-
                 <div className="chat-actions">
-                  <input
-                    className="chat-input"
-                    placeholder="Ketik balasan..."
-                    value={chatInput}
-                    onChange={e => setChatInput(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && sendChat()}
-                  />
+                  <input className="chat-input" placeholder="Ketik balasan..." value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendChat()} />
                   <button className="btn-kirim" onClick={sendChat}>Kirim</button>
-
-                  <select
-                    className="status-input"
-                    value={statusInput}
-                    onChange={e => setStatusInput(e.target.value)}
-                  >
+                  <select className="status-input" value={statusInput} onChange={e => setStatusInput(e.target.value)}>
                     <option value="Baru">Baru</option>
                     <option value="Diproses">Diproses</option>
                     <option value="Selesai">Selesai</option>
                   </select>
-                  <button className="btn-status" onClick={() => handleStatusChange(selectedReportId, statusInput)}>
-                    Update Status
-                  </button>
+                  <button className="btn-status" onClick={() => handleStatusChange(selectedReportId, statusInput)}>Update Status</button>
                 </div>
               </>
             )}
@@ -333,10 +284,10 @@ export default function Dashboard() {
 
         {/* Analitik */}
         <div className="analytics-section">
-          <h2 className="section-title">Analitik sekolah</h2>
+          <h2 className="section-title">Analitik Sekolah</h2>
           <div className="analytics-grid">
             <div className="analytics-card">
-              <h3 className="analytics-title">Lokasi kejadian</h3>
+              <h3 className="analytics-title">Lokasi Kejadian</h3>
               <div className="pie-box">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -368,7 +319,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )
