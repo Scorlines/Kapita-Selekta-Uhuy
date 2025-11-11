@@ -219,6 +219,32 @@
   justify-content: center;
 }
 
+.story-textarea {
+  background: white;
+  border: 3px solid #5D4037;
+  border-radius: 15px;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #5D4037;
+  font-weight: 500;
+  font-family: inherit;
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.story-textarea:focus {
+  outline: none;
+  border-color: #FF8C42;
+  box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.2);
+}
+
+.story-textarea::placeholder {
+  color: #B8956A;
+  font-weight: 400;
+}
+
 .next-button,
 .kirim-button {
   background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
