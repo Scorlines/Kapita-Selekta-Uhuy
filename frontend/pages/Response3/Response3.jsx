@@ -90,32 +90,16 @@ function Response3() {
           <img src={bearImage} alt="Bear Character" className="bear-character" />
         </div>
 
-        {/* Right Panel - Story Card */}
-        <div className="story-panel">
-          <div className="story-card">
-            <h2>Ceritain ke Nobi apa yang terjadi disini ya...</h2>
-            <p className="story-text">{bullyingType}</p>
-            
-            {/* Action Button */}
-            {currentPage < 3 ? (
-              <button className="next-button" onClick={handleNext}>
-                <span>NEXT</span>
-                <span className="next-icon">➜</span>
-              </button>
-            ) : (
-              <button className="kirim-button" onClick={handleKirim}>
-                <span>Kirim</span>
-              </button>
-            )}
-          </div>
-
-          {/* Pagination */}
-          <div className="pagination">
-            <span className={`page-dot ${currentPage === 1 ? 'active' : ''}`}>1</span>
-            <span className={`page-dot ${currentPage === 2 ? 'active' : ''}`}>2</span>
-            <span className={`page-dot ${currentPage === 3 ? 'active' : ''}`}>3</span>
-          </div>
+        {/* White Story Card */}
+        <div className="story-card">
+          <h2>Ceritain ke Nobi apa yang terjadi disini ya...</h2>
         </div>
+
+        {/* NEXT Button - Bottom Right */}
+        <button className="next-button-fixed" onClick={handleNext}>
+          <span>NEXT</span>
+          <span className="next-icon">➜</span>
+        </button>
       </div>
     </div>
   );
