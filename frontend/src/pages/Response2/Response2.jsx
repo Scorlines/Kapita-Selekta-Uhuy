@@ -7,7 +7,7 @@ import bearImage from '../../assets/sapa.png';
 
 function Response2() {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [storyDetail, setStoryDetail] = useState('');
   const bullyingType = sessionStorage.getItem('bullyingType') || 'Aku didorong / disakiti';
 
   const playSound = () => {
@@ -35,31 +35,17 @@ function Response2() {
     }, 200);
   };
 
-  const handleNext = () => {
-    playSound();
-    setTimeout(() => {
-      navigate('/kapan-terjadi');
-    }, 200);
-  };
-
   const handleKirim = () => {
+    if (!storyDetail.trim()) {
+      alert('Mohon ceritakan apa yang terjadi terlebih dahulu');
+      return;
+    }
+    
+    sessionStorage.setItem('storyDetail', storyDetail);
     playSound();
     setTimeout(() => {
       navigate('/kapan-terjadi');
     }, 200);
-  };
-
-  const getPageContent = () => {
-    switch (currentPage) {
-      case 1:
-        return "Nobi ngerti, itu gak baik. Kamu bersini banget cerita tentang ini.";
-      case 2:
-        return "Kamu tidak sendirian dalam menghadapi ini. Nobi ada untukmu.";
-      case 3:
-        return "Yuk kita laporkan supaya masalah ini bisa ditangani dengan baik.";
-      default:
-        return "";
-    }
   };
 
   return (
@@ -85,7 +71,7 @@ function Response2() {
         {/* Bear and Speech Bubble */}
         <div className="bear-section">
           <div className="speech-bubble">
-            <p>{getPageContent()}</p>
+            <p>Nobi ngerti, itu gak baik. Kamu berani banget cerita tentang ini. Yuk ceritakan lebih detail supaya bisa ditangani dengan baik.</p>
           </div>
           <img src={bearImage} alt="Bear Character" className="bear-character" />
         </div>
@@ -94,26 +80,19 @@ function Response2() {
         <div className="story-panel">
           <div className="story-card">
             <h2>Ceritain ke Nobi apa yang terjadi disini ya...</h2>
-            <p className="story-text">{bullyingType}</p>
+            
+            <textarea
+              className="story-textarea"
+              placeholder="Tulis ceritamu di sini..."
+              value={storyDetail}
+              onChange={(e) => setStoryDetail(e.target.value)}
+              rows={6}
+            />
             
             {/* Action Button */}
-            {currentPage < 3 ? (
-              <button className="next-button" onClick={handleNext}>
-                <span>NEXT</span>
-                <span className="next-icon">➜</span>
-              </button>
-            ) : (
-              <button className="kirim-button" onClick={handleKirim}>
-                <span>Kirim</span>
-              </button>
-            )}
-          </div>
-
-          {/* Pagination */}
-          <div className="pagination">
-            <span className={`page-dot ${currentPage === 1 ? 'active' : ''}`}>1</span>
-            <span className={`page-dot ${currentPage === 2 ? 'active' : ''}`}>2</span>
-            <span className={`page-dot ${currentPage === 3 ? 'active' : ''}`}>3</span>
+            <button className="kirim-button" onClick={handleKirim}>
+              <span>Kirim</span>
+            </button>
           </div>
         </div>
       </div>
