@@ -45,7 +45,7 @@ function Response1() {
   const handleKirim = () => {
     playSound();
     setTimeout(() => {
-      navigate('/menu');
+      navigate('/kapan-terjadi');
     }, 200);
   };
 

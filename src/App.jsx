@@ -16,6 +16,7 @@ import Response3 from './pages/Response3/Response3'
 import Response4 from './pages/Response4/Response4'
 import Response5 from './pages/Response5/Response5'
 import Response6 from './pages/Response6/Response6'
+import KapanTerjadi from './pages/KapanTerjadi/KapanTerjadi'
 import './App.css'
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/response4" element={<Response4 />} />
         <Route path="/response5" element={<Response5 />} />
         <Route path="/response6" element={<Response6 />} />
+        <Route path="/kapan-terjadi" element={<KapanTerjadi />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />
