@@ -187,7 +187,7 @@ function Dashboard() {
           <button className="nav-btn nav-btn-active" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/chat')}>Chat</button>
         </nav>
       </header>
 
