@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './Dashboard.css'
 import logoImage from '../../assets/logo pojok kanan .png'
 import { reportStorage } from '../../utils/reportStorage'
+import { getAllChats, getChatByCode, addMessage } from '../../utils/chatStorage'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
 
 const PIE_COLORS = ['#6FCF97', '#56CCF2', '#F2C94C', '#EB5757', '#BB6BD9', '#2F80ED']
@@ -29,9 +30,23 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadDashboardData()
-    const interval = setInterval(loadDashboardData, 5000)
+    const interval = setInterval(() => {
+      loadDashboardData()
+      // Refresh chat messages jika ada report yang dipilih
+      if (selectedReportId) {
+        const chatCode = selectedReportId.toString()
+        const chatData = getChatByCode(chatCode)
+        if (chatData && chatData.messages) {
+          const formattedMessages = chatData.messages.map(msg => ({
+            from: msg.sender === 'student' ? 'pelapor' : msg.sender,
+            text: msg.text
+          }))
+          setChats(prev => ({ ...prev, [selectedReportId]: formattedMessages }))
+        }
+      }
+    }, 3000) // Refresh setiap 3 detik
     return () => clearInterval(interval)
-  }, [])
+  }, [selectedReportId])
 
   const loadDashboardData = () => {
     const all = reportStorage.getAllReports()
@@ -77,7 +92,7 @@ export default function Dashboard() {
 
     const mapped = sorted.map(r => ({
       id: r.id,
-      date: reportStorage.formatDate(r.timestamp),
+      date: r.date || reportStorage.formatDate(r.timestamp),
       type: r.type || 'Laporan',
       student: r.student || '',
       reporterName: r.name || 'Anonim',
@@ -85,10 +100,10 @@ export default function Dashboard() {
       urgency: r.urgency || 'Sedang',
       details: {
         name: r.name || 'Anonim',
-        what: r.what,
-        when: r.when,
-        who: r.who,
-        where: r.where
+        what: r.detail || r.what,
+        when: r.waktu || r.when,
+        who: r.who || 'Tidak disebutkan',
+        where: r.tempat || r.where
       }
     }))
     setReports(mapped)
@@ -132,9 +147,28 @@ export default function Dashboard() {
     const next = expandedReport === id ? null : id
     setExpandedReport(next)
     setSelectedReportId(next)
-    if (next && !chats[next]) {
-      setChats(prev => ({ ...prev, [next]: [{ from: 'system', text: 'Belum ada pesan. Kirim sapaan pertama kepada pelapor.' }] }))
+    
+    // Load chat messages dari chatStorage berdasarkan report ID
+    if (next) {
+      const chatCode = next.toString()
+      const chatData = getChatByCode(chatCode)
+      
+      if (chatData && chatData.messages) {
+        // Convert chat messages ke format yang sesuai
+        const formattedMessages = chatData.messages.map(msg => ({
+          from: msg.sender === 'student' ? 'pelapor' : msg.sender,
+          text: msg.text
+        }))
+        setChats(prev => ({ ...prev, [next]: formattedMessages }))
+      } else {
+        // Jika belum ada chat, tampilkan pesan sistem
+        setChats(prev => ({ 
+          ...prev, 
+          [next]: [{ from: 'system', text: 'Belum ada pesan. Kirim sapaan pertama kepada pelapor.' }] 
+        }))
+      }
     }
+    
     const sel = reports.find(r => r.id === id)
     if (sel) setStatusInput(sel.status)
   }
@@ -149,11 +183,40 @@ export default function Dashboard() {
   const sendChat = () => {
     if (!selectedReportId || !chatInput.trim()) return
     playSound()
+    
+    const chatCode = selectedReportId.toString()
+    
+    // Simpan pesan ke chatStorage
+    addMessage(chatCode, chatInput.trim(), 'admin')
+    
+    // Update tampilan lokal
     setChats(prev => ({
       ...prev,
       [selectedReportId]: [...(prev[selectedReportId] || []), { from: 'admin', text: chatInput.trim() }]
     }))
+    
     setChatInput('')
+  }
+
+  const handleDeleteReport = () => {
+    if (!selectedReportId) return
+    if (window.confirm('Apakah Anda yakin ingin menghapus laporan ini?')) {
+      reportStorage.deleteReport(selectedReportId)
+      playSound()
+      setSelectedReportId(null)
+      setExpandedReport(null)
+      loadDashboardData()
+    }
+  }
+
+  const handleMarkAsProcessing = () => {
+    if (!selectedReportId) return
+    handleStatusChange(selectedReportId, 'Diproses')
+  }
+
+  const handleMarkAsComplete = () => {
+    if (!selectedReportId) return
+    handleStatusChange(selectedReportId, 'Selesai')
   }
 
   const selectedReport = reports.find(r => r.id === selectedReportId) || null
@@ -171,9 +234,10 @@ export default function Dashboard() {
         </div>
         <nav className="header-nav">
           <button className="nav-btn nav-btn--admin" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/chat-management')}>Chat</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
+          <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Logout</button>
         </nav>
       </header>
 
@@ -270,12 +334,11 @@ export default function Dashboard() {
                 <div className="chat-actions">
                   <input className="chat-input" placeholder="Ketik balasan..." value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendChat()} />
                   <button className="btn-kirim" onClick={sendChat}>Kirim</button>
-                  <select className="status-input" value={statusInput} onChange={e => setStatusInput(e.target.value)}>
-                    <option value="Baru">Baru</option>
-                    <option value="Diproses">Diproses</option>
-                    <option value="Selesai">Selesai</option>
-                  </select>
-                  <button className="btn-status" onClick={() => handleStatusChange(selectedReportId, statusInput)}>Update Status</button>
+                </div>
+                <div className="report-actions">
+                  <button className="btn-action btn-delete" onClick={handleDeleteReport}>Hapus</button>
+                  <button className="btn-action btn-process" onClick={handleMarkAsProcessing}>Diproses</button>
+                  <button className="btn-action btn-complete" onClick={handleMarkAsComplete}>Selesai</button>
                 </div>
               </>
             )}

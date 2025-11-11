@@ -219,6 +219,26 @@
   justify-content: center;
 }
 
+.story-textarea {
+  width: 100%;
+  background: white;
+  border: 3px solid #5D4037;
+  border-radius: 15px;
+  padding: 15px;
+  font-size: 1rem;
+  color: #5D4037;
+  font-weight: 500;
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+  outline: none;
+}
+
+.story-textarea:focus {
+  border-color: #FF8C42;
+  box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
+}
+
 .next-button,
 .kirim-button {
   background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);

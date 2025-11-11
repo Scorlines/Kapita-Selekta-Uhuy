@@ -155,6 +155,59 @@
 }
 .btn-kirim:hover, .btn-status:hover { filter:brightness(1.05); }
 
+/* Report Action Buttons */
+.report-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #EADCC6;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  color: #fff;
+}
+
+.btn-delete:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3);
+}
+
+.btn-process {
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  color: #fff;
+}
+
+.btn-process:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+}
+
+.btn-complete {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  color: #fff;
+}
+
+.btn-complete:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(67, 160, 71, 0.3);
+}
+
 /* ============== ANALITIK ============== */
 .analytics-section {
   margin-top: 8px;
