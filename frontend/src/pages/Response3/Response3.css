@@ -1,4 +1,4 @@
-﻿.laporkan-page {
+.response-page {
   min-height: 100vh;
   background-image: url("../../assets/background transparan.png");
   background-size: cover;
@@ -14,7 +14,7 @@
   margin: 0;
 }
 
-.laporkan-header {
+.response-header {
   position: relative;
   display: flex;
   justify-content: center;
@@ -103,11 +103,11 @@
   }
 }
 
-.content-container {
+.response-content {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
+  justify-content: center;
   padding: 40px 80px;
   gap: 60px;
 }
@@ -174,176 +174,141 @@
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
 }
 
-.center-content {
+.story-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  text-align: center;
-  position: relative;
+  max-width: 600px;
 }
 
-.shield-icon {
-  font-size: 120px;
-  filter: drop-shadow(0 8px 20px rgba(255, 165, 0, 0.4));
-  animation: float 3s ease-in-out infinite;
+.story-card {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFE5B4 100%);
+  border: 4px solid #8B4513;
+  border-radius: 25px;
+  padding: 40px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  }
-  50% {
-    box-shadow: 0 6px 20px rgba(211, 230, 113, 0.6);
-  }
-}
-
-.main-heading {
-  font-size: 3.5rem;
-  font-weight: 900;
+.story-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
   color: #5D4037;
   text-align: center;
-  margin: 0;
-  text-shadow: 3px 3px 0px rgba(255, 165, 0, 0.3);
-  line-height: 1.2;
-  letter-spacing: 2px;
+  font-weight: 800;
+  line-height: 1.3;
 }
 
-.lapor-button {
+.story-text {
+  background: white;
+  border: 3px solid #5D4037;
+  border-radius: 15px;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #5D4037;
+  font-weight: 600;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.next-button,
+.kirim-button {
   background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
   color: white;
   border: none;
   border-radius: 50px;
-  padding: 20px 60px;
-  font-size: 1.8rem;
-  font-weight: 800;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  align-self: flex-end;
 }
 
-.lapor-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(255, 107, 53, 0.5);
+.next-button:hover,
+.kirim-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+  background: linear-gradient(135deg, #ff9752 0%, #ff7645 100%);
 }
 
-.lapor-button:active {
+.next-button:active,
+.kirim-button:active {
   transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
-.field-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.next-icon {
+  font-size: 1.5rem;
+}
+
+.pagination {
+  display: flex;
   gap: 15px;
-  justify-content: center;
-  align-items: stretch;
-  max-width: 600px;
-  margin-top: 20px;
-}
-
-.field-btn {
-  background: linear-gradient(135deg, #D3E671 0%, #B8D25A 100%);
-  border: 3px solid #5D4037;
-  border-radius: 20px;
-  padding: 18px 25px;
-  min-width: 160px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  animation: pulse 2s ease-in-out infinite;
 }
 
-.field-btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.3);
+.page-dot {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease;
-}
-
-.field-btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.field-btn:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: #FF6B35;
-  animation: none;
-}
-
-.field-btn:active {
-  transform: translateY(-2px) scale(1.02);
-}
-
-.field-icon {
-  font-size: 2.5rem;
+  background: white;
+  border: 3px solid #8B4513;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
-  transition: transform 0.3s ease;
-}
-
-.field-btn:hover .field-icon {
-  transform: scale(1.2) rotate(5deg);
-}
-
-.field-text {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #5D4037;
-  text-align: center;
-  line-height: 1.3;
-  position: relative;
-  z-index: 1;
+  transition: all 0.3s ease;
 }
 
+.page-dot.active {
+  background: linear-gradient(135deg, #FF8C42 0%, #FF6B35 100%);
+  color: white;
+  border-color: #FF6B35;
+  transform: scale(1.2);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+}
+
+/* Responsive Design */
 @media (max-width: 1200px) {
-  .content-container {
+  .response-content {
     padding: 40px 40px;
     gap: 40px;
   }
-  .main-heading {
-    font-size: 3rem;
+}
+
+@media (max-width: 968px) {
+  .response-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    gap: 30px;
   }
-  .lapor-button {
-    font-size: 1.6rem;
-    padding: 18px 50px;
-  }
-  .shield-icon {
-    font-size: 100px;
+  
+  .story-panel {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .laporkan-header {
+  .response-header {
     padding: 20px;
   }
   
@@ -353,10 +318,6 @@
     padding: 10px 25px;
     font-size: 0.9rem;
     min-width: 100px;
-  }
-  
-  .back-button .back-icon {
-    font-size: 1.1rem;
   }
   
   .header-title h1 {
@@ -369,62 +330,32 @@
     right: 20px;
     width: 55px;
   }
-  .content-container {
-    flex-direction: column;
-    padding: 20px;
-    gap: 30px;
-  }
-  .bear-section {
-    order: 1;
-  }
+  
   .speech-bubble {
     max-width: 260px;
     padding: 15px 20px;
   }
-  .speech-bubble p {
-    font-size: 0.9rem;
-  }
+  
   .bear-character {
     width: 150px;
   }
-  .center-content {
-    order: 2;
+  
+  .story-card {
+    padding: 30px 25px;
   }
-  .shield-icon {
-    font-size: 80px;
+  
+  .story-card h2 {
+    font-size: 1.2rem;
   }
-  .main-heading {
-    font-size: 2rem;
-  }
-  .lapor-button {
-    font-size: 1.3rem;
-    padding: 15px 40px;
-  }
-  .field-buttons {
-    grid-template-columns: 1fr;
-    width: 100%;
-    max-width: 300px;
-    gap: 12px;
-  }
-  .field-btn {
-    width: 100%;
-    min-width: auto;
-    padding: 15px 20px;
-    flex-direction: row;
-    gap: 15px;
-    justify-content: flex-start;
-  }
-  .field-icon {
-    font-size: 2rem;
-  }
-  .field-text {
-    font-size: 0.9rem;
-    text-align: left;
+  
+  .story-text {
+    font-size: 1rem;
+    min-height: 60px;
   }
 }
 
 @media (max-width: 480px) {
-  .laporkan-header {
+  .response-header {
     padding: 15px;
   }
 
@@ -449,24 +380,5 @@
     top: 15px;
     right: 15px;
     width: 45px;
-  }
-  .main-heading {
-    font-size: 1.6rem;
-  }
-  .lapor-button {
-    font-size: 1.1rem;
-    padding: 12px 30px;
-  }
-  .shield-icon {
-    font-size: 60px;
-  }
-  .field-btn {
-    padding: 12px 15px;
-  }
-  .field-icon {
-    font-size: 1.5rem;
-  }
-  .field-text {
-    font-size: 0.85rem;
   }
 }

@@ -3,130 +3,161 @@ import { useNavigate } from 'react-router-dom'
 import './Dashboard.css'
 import logoImage from '../../assets/logo pojok kanan .png'
 import { reportStorage } from '../../utils/reportStorage'
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
 
-const PIE_COLORS = ['#6FCF97', '#56CCF2', '#F2C94C', '#EB5757', '#BB6BD9', '#2F80ED']
-
-export default function Dashboard() {
+function Dashboard() {
   const navigate = useNavigate()
-
-  // ringkasan: mulai dari nol
-  const [stats, setStats] = useState({ total: 0, thirtyDays: 0, completed: 0, new: 0 })
-
-  // antrian/daftar
+  const [stats, setStats] = useState({
+    total: 0,
+    thirtyDays: 0,
+    completed: 0,
+    new: 0
+  })
   const [reports, setReports] = useState([])
-  const [expandedReport, setExpandedReport] = useState(null)   // untuk expand kartu
-  const [selectedReportId, setSelectedReportId] = useState(null) // untuk chat
-
-  // notifikasi
   const [lastReportCount, setLastReportCount] = useState(0)
   const [showNotification, setShowNotification] = useState(false)
+  const [expandedReport, setExpandedReport] = useState(null)
 
-  // analitik
-  const [analytics, setAnalytics] = useState({ byLocation: [], byCategory: [] })
-
-  // chat admin
-  const [chats, setChats] = useState({})     // { [reportId]: [{from:'admin'|'pelapor'|'system', text}] }
-  const [chatInput, setChatInput] = useState('')
-  const [statusInput, setStatusInput] = useState('')
-
+  // Load data saat komponen dimount
   useEffect(() => {
+    // Inisialisasi data dummy jika belum ada data
     initializeDummyData()
     loadDashboardData()
+    
+    // Refresh data setiap 5 detik untuk update real-time
     const interval = setInterval(loadDashboardData, 5000)
+    
     return () => clearInterval(interval)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const initializeDummyData = () => {
-    // 🚫 Jangan isi dummy supaya Ringkasan awal = 0
-    // Biarkan kosong sampai user beneran kirim laporan.
-    // Jika kamu tetap butuh seed lokal, boleh aktifkan block di bawah.
-    /*
     const existingReports = reportStorage.getAllReports()
     if (existingReports.length === 0) {
-      const dummyReports = [ ... ]
-      dummyReports.forEach(report => reportStorage.saveReport(report))
+      // Tambahkan beberapa data dummy
+      const dummyReports = [
+        {
+          name: 'Ahmad Rizki',
+          what: 'Saya dipukul oleh teman sekelas di koridor sekolah',
+          when: '2025-11-08T14:30:00',
+          who: 'Siswa kelas 8B',
+          where: 'Koridor lantai 2'
+        },
+        {
+          name: '', // Anonim
+          what: 'Diejek dan dihina karena penampilan fisik',
+          when: '2025-11-08T10:15:00',
+          who: 'Beberapa siswa kelas 9A',
+          where: 'Kantin sekolah'
+        },
+        {
+          name: 'Siti Nurhaliza',
+          what: 'Diancam dan diminta uang jajan',
+          when: '2025-11-07T16:45:00',
+          who: 'Siswa senior',
+          where: 'Toilet sekolah'
+        }
+      ]
+      
+      dummyReports.forEach(report => {
+        reportStorage.saveReport(report)
+      })
     }
-    */
   }
 
   const loadDashboardData = () => {
-    const all = reportStorage.getAllReports()
-    const hasReports = all.length > 0
-
+    // Load statistik
     const newStats = reportStorage.getStats()
-    // kalau belum ada laporan, paksa 0 semua
-    setStats(hasReports ? newStats : { total: 0, thirtyDays: 0, completed: 0, new: 0 })
-
-    // notifikasi
+    
+    // Cek apakah ada laporan baru
     if (lastReportCount > 0 && newStats.total > lastReportCount) {
       setShowNotification(true)
       playNotificationSound()
       setTimeout(() => setShowNotification(false), 5000)
     }
+    
+    setStats(newStats)
     setLastReportCount(newStats.total)
-
-    // analitik
-    const locMap = new Map()
-    const catMap = new Map()
-    all.forEach(r => {
-      const loc = (r.where || r.details?.where || 'Lainnya').trim()
-      const cat = (r.type || r.kategori || 'Lainnya').trim()
-      locMap.set(loc, (locMap.get(loc) || 0) + 1)
-      catMap.set(cat, (catMap.get(cat) || 0) + 1)
-    })
-    setAnalytics({
-      byLocation: Array.from(locMap, ([name, value]) => ({ name, value })),
-      byCategory: Array.from(catMap, ([name, value]) => ({ name, value }))
-    })
-
-    // daftar terbaru (maks 5)
-    const recent = all
+    
+    // Load laporan terbaru (maksimal 5 laporan)
+    const allReports = reportStorage.getAllReports()
+    const recentReports = allReports
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       .slice(0, 5)
-      .map(r => ({
-        id: r.id,
-        date: reportStorage.formatDate(r.timestamp),
-        type: r.type || 'Laporan',
-        student: r.student || '',
-        reporterName: r.name || 'Anonim',
-        status: r.status || 'Baru',
-        urgency: r.urgency || 'Sedang',
+      .map(report => ({
+        id: report.id,
+        date: reportStorage.formatDate(report.timestamp),
+        type: report.type,
+        student: report.student,
+        reporterName: report.name || 'Anonim',
+        status: report.status,
+        urgency: report.urgency,
         details: {
-          name: r.name || 'Anonim',
-          what: r.what,
-          when: r.when,
-          who: r.who,
-          where: r.where
+          name: report.name || 'Anonim',
+          what: report.what,
+          when: report.when,
+          who: report.who,
+          where: report.where
         }
       }))
-    setReports(recent)
+    
+    setReports(recentReports)
   }
 
   const playNotificationSound = () => {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)()
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.connect(gain); gain.connect(ctx.destination)
-    osc.frequency.value = 800; osc.type = 'sine'
-    gain.gain.setValueAtTime(0.3, ctx.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5)
-    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.5)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    oscillator.frequency.value = 800
+    oscillator.type = 'sine'
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5)
+
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 0.5)
   }
 
   const playSound = () => {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)()
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.connect(gain); gain.connect(ctx.destination)
-    osc.frequency.value = 600; osc.type = 'sine'
-    gain.gain.setValueAtTime(0.3, ctx.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2)
-    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.2)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    oscillator.frequency.value = 600
+    oscillator.type = 'sine'
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2)
+
+    oscillator.start(audioContext.currentTime)
+    oscillator.stop(audioContext.currentTime + 0.2)
   }
 
-  const handleMenuClick = (menu) => { playSound(); setTimeout(() => navigate(menu), 100) }
+  const handleMenuClick = (menu) => {
+    playSound()
+    setTimeout(() => {
+      navigate(menu)
+    }, 100)
+  }
+
+  const handleStatusChange = (reportId, newStatus) => {
+    reportStorage.updateReportStatus(reportId, newStatus)
+    loadDashboardData() // Refresh data
+    playSound()
+  }
+
+  const handleDeleteReport = (reportId) => {
+    if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) {
+      reportStorage.deleteReport(reportId)
+      loadDashboardData() // Refresh data
+      playSound()
+    }
+  }
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -137,60 +168,13 @@ export default function Dashboard() {
     }
   }
 
-  const onSelectReport = (id) => {
-    playSound()
-    const next = expandedReport === id ? null : id
-    setExpandedReport(next)
-    setSelectedReportId(next)
-    // init chat system message jika belum ada
-    if (next && !chats[next]) {
-      setChats(prev => ({ ...prev, [next]: [{ from: 'system', text: 'Belum ada pesan. Kirim sapaan pertama kepada pelapor.' }] }))
-    }
-    // set default statusInput sesuai status aktif
-    const sel = reports.find(r => r.id === id)
-    if (sel) setStatusInput(sel.status)
+  const toggleReportExpansion = (reportId) => {
+    setExpandedReport(expandedReport === reportId ? null : reportId)
   }
-
-  const handleStatusChange = (reportId, newStatus) => {
-    reportStorage.updateReportStatus(reportId, newStatus)
-    setStatusInput(newStatus)
-    loadDashboardData()
-    playSound()
-  }
-
-  const handleDeleteReport = (reportId) => {
-    if (confirm('Apakah Anda yakin ingin menghapus laporan ini?')) {
-      reportStorage.deleteReport(reportId)
-      // bersihkan chatnya juga kalau ada
-      setChats(prev => {
-        const cp = { ...prev }
-        delete cp[reportId]
-        return cp
-      })
-      if (selectedReportId === reportId) {
-        setSelectedReportId(null)
-        setExpandedReport(null)
-      }
-      loadDashboardData()
-      playSound()
-    }
-  }
-
-  const sendChat = () => {
-    if (!selectedReportId || !chatInput.trim()) return
-    playSound()
-    setChats(prev => ({
-      ...prev,
-      [selectedReportId]: [...(prev[selectedReportId] || []), { from: 'admin', text: chatInput.trim() }]
-    }))
-    setChatInput('')
-  }
-
-  const selectedReport = reports.find(r => r.id === selectedReportId) || null
 
   return (
     <div className="dashboard-page">
-      {/* Header */}
+      {/* Header Navigation */}
       <header className="dashboard-header">
         <div className="header-left">
           <img src={logoImage} alt="Safe School Logo" className="header-logo" />
@@ -200,18 +184,11 @@ export default function Dashboard() {
           </div>
         </div>
         <nav className="header-nav">
-          <button
-            className="nav-btn nav-btn--admin"   // ⬅️ tambahkan ini, hapus nav-btn-active
-            onClick={() => handleMenuClick('/dashboard')}
-          >
-            Admin
-          </button>
+          <button className="nav-btn nav-btn-active" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/login')}>Chat</button>
         </nav>
-
-
       </header>
 
       {/* Notification */}
@@ -220,156 +197,142 @@ export default function Dashboard() {
           <div className="notification-content">
             <span className="notification-icon">🚨</span>
             <span className="notification-text">Laporan baru telah diterima!</span>
-            <button className="notification-close" onClick={() => setShowNotification(false)}>✕</button>
+            <button 
+              className="notification-close"
+              onClick={() => setShowNotification(false)}
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
 
+      {/* Main Content */}
       <div className="dashboard-content">
         <h1 className="dashboard-title">Dashboard Analytics</h1>
-
-        {/* Ringkasan (awal 0) */}
+        
+        {/* Summary Statistics */}
         <div className="summary-section">
           <h2 className="section-title">Ringkasan</h2>
           <div className="stats-grid">
-            <div className="stat-card"><div className="stat-label">Total</div><div className="stat-value">{stats.total || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">30 Hari</div><div className="stat-value">{stats.thirtyDays || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">Selesai</div><div className="stat-value">{stats.completed || 0}</div></div>
-            <div className="stat-card"><div className="stat-label">Baru</div><div className="stat-value">{stats.new || 0}</div></div>
+            <div className="stat-card">
+              <div className="stat-label">Total</div>
+              <div className="stat-value">{stats.total}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-label">30 Hari</div>
+              <div className="stat-value">{stats.thirtyDays}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-label">Selesai</div>
+              <div className="stat-value">{stats.completed}</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-label">Baru</div>
+              <div className="stat-value">{stats.new}</div>
+            </div>
           </div>
         </div>
 
-        {/* Antrian */}
-        <section className="queue-section">
-          <h2 className="section-title">Antrian</h2>
-          <div className="queue-frame">
-            {reports.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                className={`queue-item ${selectedReportId === r.id ? 'active' : ''}`}
-                onClick={() => onSelectReport(r.id)}
-              >
-                <div className="qi-line-1">
-                  <span className="qi-type">{r.details.what?.slice(0, 22) || r.type}</span>
-                  <span className="qi-date">{r.date}</span>
-                </div>
-                <div className="qi-line-2">{r.details.who || r.student}</div>
-                <div className="qi-line-3">
-                  <span className="qi-status" style={{ backgroundColor: getStatusColor(r.status) }}>
-                    Status: {r.status}
-                  </span>
-                  <span className="qi-urgency">Urgensi: {r.urgency}</span>
-                </div>
-              </button>
-            ))}
+        {/* Queue Section */}
+        <div className="queue-section">
+          <div className="section-header">
+            <h2 className="section-title">Antrian</h2>
+            <button 
+              className="refresh-btn"
+              onClick={() => {
+                loadDashboardData()
+                playSound()
+              }}
+              title="Refresh Data"
+            >
+              🔄 Refresh
+            </button>
           </div>
-        </section>
-
-        {/* Chat Admin */}
-        <section className="chat-admin">
-          <h2 className="section-title chat-title">Chat Admin</h2>
-
-          {/* Meta header */}
-          <div className="chat-meta">
-            <div>Kategori: <b>{selectedReport?.type || '-'}</b></div>
-            <div>Lokasi: <b>{selectedReport?.details.where || '-'}</b></div>
-            <div>Waktu: <b>{selectedReport?.date || '-'}</b></div>
-          </div>
-
-          {/* Room */}
-          <div className="chat-card">
-            {!selectedReport && (
-              <>
-                <div className="chat-banner">Belum ada pesan. Kirim sapaan pertama kepada pelapor</div>
-                <div className="chat-actions disabled">
-                  <input className="chat-input" placeholder="Ketik balasan..." disabled />
-                  <button className="btn-kirim" disabled>Kirim</button>
-                  <select className="status-input" disabled>
-                    <option>Status...</option>
-                  </select>
-                  <button className="btn-status" disabled>Update Status</button>
-                </div>
-              </>
-            )}
-
-            {selectedReport && (
-              <>
-                <div className="chat-window">
-                  {(chats[selectedReportId] || []).map((m, i) => (
-                    <div key={i} className={`bubble ${m.from}`}>
-                      {m.text}
+          <div className="reports-list">
+            {reports.length === 0 ? (
+              <div className="no-reports">
+                <p>Tidak ada laporan saat ini</p>
+              </div>
+            ) : (
+              reports.map((report) => (
+                <div 
+                  key={report.id} 
+                  className={`report-card ${expandedReport === report.id ? 'expanded' : ''}`}
+                  onClick={() => toggleReportExpansion(report.id)}
+                >
+                  <div className="expand-indicator">
+                    {expandedReport === report.id ? '▼' : '▶'}
+                  </div>
+                  <div className="report-info">
+                    <div className="report-type">{report.type}</div>
+                    <div className="report-date">{report.date}</div>
+                    <div className="report-reporter">Pelapor: {report.reporterName}</div>
+                    <div className="report-student">{report.student}</div>
+                    
+                    <div className="report-meta">
+                      <span 
+                        className="report-status"
+                        style={{ backgroundColor: getStatusColor(report.status) }}
+                      >
+                        Status: {report.status}
+                      </span>
+                      <span className="report-urgency">Urgensi: {report.urgency}</span>
                     </div>
-                  ))}
+                    
+                    {/* Detail laporan - hanya tampil saat expanded */}
+                    <div className="report-details">
+                      <div className="detail-item">
+                        <strong>Pelapor:</strong> {report.details.name}
+                      </div>
+                      <div className="detail-item">
+                        <strong>Apa:</strong> {report.details.what}
+                      </div>
+                      <div className="detail-item">
+                        <strong>Kapan:</strong> {report.details.when}
+                      </div>
+                      <div className="detail-item">
+                        <strong>Siapa:</strong> {report.details.who}
+                      </div>
+                      <div className="detail-item">
+                        <strong>Dimana:</strong> {report.details.where}
+                      </div>
+                    </div>
+                    
+                    {/* Action buttons - hanya tampil saat expanded */}
+                    <div className="report-actions" onClick={(e) => e.stopPropagation()}>
+                      {report.status === 'Baru' && (
+                        <button 
+                          className="action-btn process-btn"
+                          onClick={() => handleStatusChange(report.id, 'Diproses')}
+                        >
+                          Proses
+                        </button>
+                      )}
+                      {report.status === 'Diproses' && (
+                        <button 
+                          className="action-btn complete-btn"
+                          onClick={() => handleStatusChange(report.id, 'Selesai')}
+                        >
+                          Selesaikan
+                        </button>
+                      )}
+                      <button 
+                        className="action-btn delete-btn"
+                        onClick={() => handleDeleteReport(report.id)}
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="chat-actions">
-                  <input
-                    className="chat-input"
-                    placeholder="Ketik balasan..."
-                    value={chatInput}
-                    onChange={e => setChatInput(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && sendChat()}
-                  />
-                  <button className="btn-kirim" onClick={sendChat}>Kirim</button>
-
-                  <select
-                    className="status-input"
-                    value={statusInput}
-                    onChange={e => setStatusInput(e.target.value)}
-                  >
-                    <option value="Baru">Baru</option>
-                    <option value="Diproses">Diproses</option>
-                    <option value="Selesai">Selesai</option>
-                  </select>
-                  <button className="btn-status" onClick={() => handleStatusChange(selectedReportId, statusInput)}>
-                    Update Status
-                  </button>
-                </div>
-              </>
+              ))
             )}
           </div>
-        </section>
-
-        {/* Analitik */}
-        <div className="analytics-section">
-          <h2 className="section-title">Analitik sekolah</h2>
-          <div className="analytics-grid">
-            <div className="analytics-card">
-              <h3 className="analytics-title">Lokasi kejadian</h3>
-              <div className="pie-box">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={analytics.byLocation} dataKey="value" nameKey="name" outerRadius={70}>
-                      {analytics.byLocation.map((_, i) => (
-                        <Cell key={`loc-${i}`} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip /><Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            <div className="analytics-card">
-              <h3 className="analytics-title">Kategori</h3>
-              <div className="pie-box">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={analytics.byCategory} dataKey="value" nameKey="name" innerRadius={35} outerRadius={70}>
-                      {analytics.byCategory.map((_, i) => (
-                        <Cell key={`cat-${i}`} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip /><Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
   )
 }
+
+export default Dashboard
