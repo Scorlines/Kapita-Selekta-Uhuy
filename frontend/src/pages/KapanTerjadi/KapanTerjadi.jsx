@@ -5,6 +5,7 @@ import './KapanTerjadi.css';
 import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
 
+// Random comment for commit 1
 function KapanTerjadi() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
