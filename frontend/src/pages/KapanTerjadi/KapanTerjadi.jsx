@@ -6,6 +6,7 @@ import logoImage from '../../assets/logo pojok kanan .png';
 import bearImage from '../../assets/sapa.png';
 
 // Random comment for commit 1
+// Another random comment for commit 2
 function KapanTerjadi() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
