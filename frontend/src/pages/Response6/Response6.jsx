@@ -37,12 +37,15 @@ function Response6() {
 
   const handleKirim = () => {
     if (!storyDetail.trim()) {
-      alert('Mohon ceritakan apa yang terjadi terlebih dahulu');
+      alert('Mohon ceritakan kejadiannya terlebih dahulu!');
       return;
     }
     
-    sessionStorage.setItem('storyDetail', storyDetail);
     playSound();
+    
+    // Simpan detail cerita ke sessionStorage
+    sessionStorage.setItem('storyDetail', storyDetail);
+    
     setTimeout(() => {
       navigate('/kapan-terjadi');
     }, 200);
