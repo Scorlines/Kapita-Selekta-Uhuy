@@ -226,7 +226,27 @@
 .analytics-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 .analytics-card { background:#fff; color:#3E2723; border-radius:16px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,.08); }
 .analytics-title { margin:4px 0 8px; font-weight:700; color:#5D4037; }
-.pie-box { width:100%; height:180px; }
+.pie-box { width:100%; height:320px; }
+
+/* Legend styling untuk diagram */
+.pie-box .recharts-legend {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  padding-left: 8px !important;
+  text-align: left !important;
+}
+
+.pie-box .recharts-legend-wrapper {
+  text-align: left !important;
+}
+
+.pie-box .recharts-legend-item {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 4px !important;
+  font-size: 12px !important;
+}
 
 /* Responsive */
 @media (max-width: 960px) {

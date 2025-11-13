@@ -402,7 +402,8 @@ export default function Dashboard() {
                         <Cell key={`loc-${i}`} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip /><Legend />
+                    <Tooltip />
+                    <Legend wrapperStyle={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '8px' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -418,7 +419,8 @@ export default function Dashboard() {
                         <Cell key={`cat-${i}`} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip /><Legend />
+                    <Tooltip />
+                    <Legend wrapperStyle={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '8px' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
