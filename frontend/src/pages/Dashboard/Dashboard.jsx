@@ -73,8 +73,14 @@ export default function Dashboard() {
     // analitik
     const locMap = new Map()
     const catMap = new Map()
+    const predefinedLocations = ['Di Kelas', 'Di Lapangan', 'Di Kantin', 'Di HP / Chat']
+    
     all.forEach(r => {
-      const loc = (r.where || r.details?.where || 'Lainnya').trim()
+      let loc = (r.where || r.details?.where || 'Lainnya').trim()
+      // Jika lokasi bukan dari pilihan predefined, ubah menjadi "Lainnya"
+      if (loc && !predefinedLocations.includes(loc)) {
+        loc = 'Lainnya'
+      }
       const cat = (r.type || r.kategori || 'Lainnya').trim()
       locMap.set(loc, (locMap.get(loc) || 0) + 1)
       catMap.set(cat, (catMap.get(cat) || 0) + 1)
@@ -253,7 +259,6 @@ export default function Dashboard() {
         </div>
         <nav className="header-nav">
           <button className="nav-btn nav-btn--admin" onClick={() => handleMenuClick('/dashboard')}>Admin</button>
-          <button className="nav-btn" onClick={() => handleMenuClick('/chat-management')}>Chat</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/laporkan')}>Laporkan</button>
           <button className="nav-btn" onClick={() => handleMenuClick('/edukasi')}>Edukasi</button>
         </nav>
