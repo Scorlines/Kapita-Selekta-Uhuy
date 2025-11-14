@@ -43,7 +43,7 @@ function MainMenu() {
   return (
     <div className="main-menu-page">
       {/* Header */}
-      <div className="menu-header">
+      <div className="page-header">
         <button className="back-button" onClick={handleBackClick}>
           <FiArrowLeft className="back-icon" />
           <span>BACK</span>
