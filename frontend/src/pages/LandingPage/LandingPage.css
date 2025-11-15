@@ -1,3 +1,16 @@
+/* Posisikan header di luar aliran sehingga kita bisa center isi utama */
+.landing-header {
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 0; /* hapus margin flow sebelumnya */
+  z-index: 30;
+}
+
+/* Center seluruh isi halaman secara vertikal */
 .landing-page {
   min-height: 100vh;
   background-image: url('../../assets/background.png');
@@ -9,17 +22,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* <-- center vertikal */
   padding: 3.5rem 1.5rem 1.5rem;
 }
 
-/* ===== HEADER ===== */
-.landing-header {
-  width: 100%;
+/* Pastikan main-bear tidak memiliki margin atas yang mendorong keluar */
+.main-bear {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  margin-top: 3rem;           /* diturunkan supaya nggak nabrak logo */
-  z-index: 10;
+  margin-top: 0; /* reset */
+  z-index: 5;
+  transform-origin: center bottom;
 }
 
 .landing-title {
