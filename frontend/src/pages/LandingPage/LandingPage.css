@@ -9,94 +9,72 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-start;
+  padding: 3.5rem 1.5rem 1.5rem;
 }
 
-/* Landing Header */
+/* ===== HEADER ===== */
 .landing-header {
-  position: absolute;
-  top: 140px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
+  width: 100%;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;           /* diturunkan supaya nggak nabrak logo */
+  z-index: 10;
 }
 
 .landing-title {
-  background: linear-gradient(90deg, #FF8C42 0%, #FF8C42 75%, #FF8C42 75%, #FF8C42 100%);
-  color: white;
-  padding: 15px 40px;
-  border-radius: 50px;
-  font-size: 2rem;
+  background: linear-gradient(90deg, #ff8c42 0%, #ff6b35 100%);
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 40px;
+  font-size: 1.7rem;
   font-weight: 900;
   margin: 0;
   text-align: center;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   letter-spacing: 1px;
-  white-space: nowrap;
+  white-space: nowrap; /* desktop: satu baris */
 }
 
-/* Corner Logo - Top Right */
+/* ============ LOGO POJOK KANAN (DIAM) ============ */
 .corner-logo {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  animation: floatLogo 3s ease-in-out infinite;
+  top: 5px;
+  right: 14px;
+  z-index: 30;
+  animation: none !important;
 }
 
 .corner-logo img {
-  width: 120px;
+  width: 80px;
   height: auto;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+  animation: none !important;
 }
 
-@keyframes floatLogo {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Main Bear Character */
+/* ===== BERUANG & TOMBOL ===== */
 .main-bear {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 8%;
-  z-index: 40;
-  animation: fadeInUp 1.2s ease-out;
+  margin-top: 6%;
+  z-index: 5;
+  /* tidak ada animation di sini, jadi diam */
+  transform-origin: center bottom;
 }
 
+/* beruang statis, tidak animasi sendiri */
 .bear-character {
-  width: 350px !important;
+  width: 340px;
   height: auto;
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
-  transition: transform 0.3s ease;
 }
 
-.main-bear:hover .bear-character {
-  transform: scale(1.05);
-}
+/* tidak ada hover scale lagi, biar benar-benar diam */
 
-@keyframes fadeInUp {
-  0% {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Start Button - Positioned on the bear's sign */
+/* Tombol "MULAI" di papan beruang */
 .start-button {
   position: absolute;
   bottom: 45px;
@@ -106,19 +84,14 @@
   padding: 15px 45px;
   font-size: 1.8rem;
   font-weight: 900;
-  color: #FF6B35;
+  color: #ff6b35;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  z-index: 45;
+  transition: color 0.2s ease;
+  z-index: 10;
 }
 
 .start-button:hover {
-  transform: scale(1.1) rotate(-2deg);
-  color: #FF8C42;
-}
-
-.start-button:active {
-  transform: scale(0.95);
+  color: #ff8c42;   /* hanya warna yang berubah */
 }
 
 .start-text {
@@ -126,120 +99,105 @@
   letter-spacing: 2px;
 }
 
-/* Bounce Animation */
-.main-bear.bounce {
-  animation: bounce 0.6s ease;
-}
+/* class-class animasi bounce DIHAPUS, jadi nggak ada lagi */
 
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(-20px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  75% {
-    transform: translateY(-15px);
-  }
-}
+/* ===== RESPONSIVE ===== */
 
-.start-button.clicked {
-  animation: buttonPulse 0.6s ease;
-}
-
-@keyframes buttonPulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-/* Responsive Design */
+/* Tablet */
 @media (max-width: 1024px) {
+  .landing-title {
+    font-size: 1.5rem;
+    padding: 10px 28px;
+  }
+
   .bear-character {
-    width: 300px !important;
+    width: 300px;
   }
 
   .start-button {
-    bottom: 23px;
-    font-size: 1.6rem;
+    bottom: 30px;
+    font-size: 1.5rem;
     padding: 12px 40px;
   }
 
   .corner-logo img {
-    width: 100px;
-  }
-
-  .landing-title {
-    font-size: 1.8rem;
-    padding: 12px 35px;
+    width: 90px;
   }
 }
 
+/* Mobile < 768px */
 @media (max-width: 768px) {
-  .landing-title {
-    font-size: 1.5rem;
-    padding: 10px 30px;
+  .landing-page {
+    padding: 3rem 1rem 1.5rem;
   }
 
   .landing-header {
-    top: 15px;
+    margin-top: 2.6rem;      /* turun juga di mobile */
   }
 
-  .bear-character {
-    width: 260px !important;
-  }
-
-  .start-button {
-    bottom: 20px;
-    font-size: 1.4rem;
-    padding: 10px 35px;
-  }
-
-  .corner-logo img {
-    width: 80px;
+  .landing-title {
+    font-size: 1.25rem;
+    padding: 8px 20px;
+    white-space: normal;      /* boleh turun baris */
+    max-width: 90%;
+    line-height: 1.4;
   }
 
   .corner-logo {
-    top: 15px;
-    right: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .landing-page {
-    padding: 1rem;
-  }
-
-  .landing-title {
-    font-size: 1.2rem;
-    padding: 8px 20px;
-  }
-
-  .landing-header {
     top: 10px;
-  }
-
-  .bear-character {
-    width: 220px !important;
-  }
-
-  .start-button {
-    bottom: 18px;
-    font-size: 1.2rem;
-    padding: 8px 30px;
+    right: 10px;
   }
 
   .corner-logo img {
-    width: 70px;
+    width: 75px;
   }
 
   .main-bear {
-    margin-top: 10%;
+    margin-top: 14%;
+  }
+
+  .bear-character {
+    width: 250px;
+  }
+
+  .start-button {
+    bottom: 26px;
+    font-size: 1.3rem;
+    padding: 9px 32px;
+  }
+}
+
+/* Mobile kecil < 480px */
+@media (max-width: 480px) {
+  .landing-page {
+    padding: 2.5rem 0.75rem 1.25rem;
+  }
+
+  .landing-header {
+    margin-top: 1rem;      /* makin jauh dari logo */
+  }
+
+  .landing-title {
+    font-size: 1.05rem;
+    padding: 7px 16px;
+    max-width: 92%;
+  }
+
+  .corner-logo img {
+    width: 60px;
+  }
+
+  .main-bear {
+    margin-top: 15%;
+  }
+
+  .bear-character {
+    width: 210px;
+  }
+
+  .start-button {
+    bottom: 24px;
+    font-size: 1.1rem;
+    padding: 6px 26px;
   }
 }
