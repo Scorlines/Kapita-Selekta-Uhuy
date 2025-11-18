@@ -186,9 +186,12 @@ function LaporanForm() {
                       backgroundColor: field.color,
                       borderColor: activeField === field.id ? '#FF6B35' : '#5D4037'
                     }}
-                    onClick={() => document.getElementById(`input-${field.id}`).focus()}
                   >
-                    <div className="field-header">
+                    <div className="field-header" onClick={() => {
+                      if (field.type !== 'datetime-local') {
+                        document.getElementById(`input-${field.id}`).focus();
+                      }
+                    }}>
                       <span className="field-icon">{field.icon}</span>
                       <span className="field-label">{field.label}</span>
                     </div>
