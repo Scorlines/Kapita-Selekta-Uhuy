@@ -93,6 +93,23 @@ export const api = {
     method: 'POST',
     body: JSON.stringify(reportData),
   }),
+
+  // Report History (ditambahkan dari kode kedua)
+  saveReport: (report) => apiRequest('/history', {
+    method: 'POST',
+    body: JSON.stringify(report),
+  }),
+
+  getReports: () => apiRequest('/history'),
+}
+
+// Export individual functions for backward compatibility (opsional)
+export async function saveReport(report) {
+  return api.saveReport(report)
+}
+
+export async function getReports() {
+  return api.getReports()
 }
 
 export default api

@@ -1,0 +1,13 @@
+{
+  "name": "kapita-selekta-uhuy",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w frontend",
+    "build": "npm run build -w frontend",
+    "preview": "npm run preview -w frontend"
+  }
+}
